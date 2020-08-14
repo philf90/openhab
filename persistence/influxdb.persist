@@ -1,0 +1,57 @@
+Strategies {
+  everyMinute     : "0 * * * * ?"
+  every5Minutes   : "0 */5 * * * ?"
+  every15Minutes  : "0 */15 * * * ?"
+  everyHour       : "0 0 * * * ?"
+  everyDay        : "0 0 0 * * ?"
+  default= everyChange
+
+}
+
+Items {
+	  //SYSHOST
+    SysHostUptime					          : strategy = every5Minutes
+    SysHostMemTotal                 : strategy = every5Minutes
+    SysHostMemAvailable             : strategy = everyMinute
+    SysHostMemUsed                  : strategy = everyMinute
+    SysHostSwapTotal                : strategy = every5Minutes
+    SysHostSwapAvailable            : strategy = everyMinute
+    SysHostSwapUsed                 : strategy = everyMinute
+    SysHostHDDTotal                 : strategy = every5Minutes
+    SysHostHDDAvailable             : strategy = everyMinute
+    SysHostHDDUsed                  : strategy = everyMinute
+    SysHostCpuLoad1                 : strategy = everyMinute
+    SysHostCpuThreads               : strategy = everyMinute
+    //SPEEDTEST
+    SpeedtestResultPing             : strategy = everyChange
+    SpeedtestResultDown             : strategy = everyChange
+    SpeedtestResultUp               : strategy = everyChange
+    //FRITZBOX
+    fboxDslDownstreamCurrRate       : strategy = every5Minutes
+    fboxDslUpstreamCurrRate         : strategy = every5Minutes
+    fboxDslDownstreamMaxRate        : strategy = every5Minutes
+    fboxDslUpstreamMaxRate          : strategy = every5Minutes
+    //TANKSTELLE
+    Aral_LD_Diesel                  : strategy = every15Minutes
+    Aral_LD_E5                      : strategy = every15Minutes
+    Aral_LD_E10                     : strategy = every15Minutes
+    Aral_Obc_Diesel                 : strategy = every15Minutes
+    Aral_Obc_E5                     : strategy = every15Minutes
+    Aral_Obc_E10                    : strategy = every15Minutes
+    Hornbach_Diesel                 : strategy = every15Minutes
+    Hornbach_E5                     : strategy = every15Minutes
+    Hornbach_E10                    : strategy = every15Minutes
+    Zotz_Diesel                     : strategy = every15Minutes
+    Zotz_E5                         : strategy = every15Minutes
+    Zotz_E10                        : strategy = every15Minutes
+    //OWM
+    OWM_CurrentTemperature          : strategy = everyChange
+    OWM_CurrentApparentTemperature  : strategy = everyChange
+    OWM_CurrentUvindex              : strategy = everyHour
+    //TEMPERATUR
+    Temp_Buero_ACTUALTEMPERATURE    : strategy = everyChange
+    Temp_Schlaf_TEMPERATURE         : strategy = everyChange
+    Temp_Wohn_TEMPERATURE           : strategy = everyChange
+    Temp_Kueche_TEMPERATURE         : strategy = everyChange
+    Temp_Bad_gross_TEMPERATURE      : strategy = everyChange
+}
