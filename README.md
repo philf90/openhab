@@ -1,0 +1,2 @@
+# openhab
+Local openhab installation
