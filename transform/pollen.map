@@ -1,0 +1,9 @@
+0=keine
+0-1=keine bis gering
+1=gering
+1-2=gering bis mittel
+2=mittel
+2-3=mittel bis hoch
+3=hoch
+=unbekannt
+NULL=unbekannt
