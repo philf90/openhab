@@ -1,0 +1,31 @@
+val String filename = "exec.rules"
+
+rule "Exec init"
+when
+    System started
+then
+    createTimer(now.plusSeconds(120)) [|
+        SysHostVersionRun.sendCommand(ON)
+        SysHostNameRun.sendCommand(ON)
+        SysHostKernelRun.sendCommand(ON)
+        SysHostOHVersionRun.sendCommand(ON)
+    ]
+end
+
+rule "correct OS Version"
+when
+    Item SysHostVersion received update
+then
+    val String version = SysHostVersion.state.toString.split(":").get(1)
+    SysHostVersion.postUpdate(version)
+    logInfo(filename, "SysHostVersion korrigiert auf {}", version)
+end
+
+rule "correct openHAB Version"
+when
+    Item SysHostOHVersion received update
+then
+    val String ohversion = SysHostOHVersion.state.toString.split(" ").get(5)
+    SysHostOHVersion.postUpdate(ohversion)
+    logInfo(filename, "SysHostVersion korrigiert auf {}", ohversion)
+end

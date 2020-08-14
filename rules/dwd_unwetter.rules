@@ -1,0 +1,53 @@
+val String filename = "dwd_unwetter.rules"
+val mailActions = getActions("mail","mail:smtp:ec4261cf")
+
+rule "Unwetter Notification #1"
+when
+    Item DWD_Obc_Description changed
+then
+    val String description = DWD_Obc_Description.state.toString
+    val String headline = DWD_Obc_Headline.state.toString
+    val String anweisungen = DWD_Obc_Instruction.state.toString
+    if(description != "NULL") {
+        sendNotification("philipp@netzhost24.de", "Achtung! " + headline)
+        mailActions.sendMail("philipp@netzhost24.de", headline, description + " " + anweisungen)
+        logInfo(filename, headline + " " + description)
+    } else {
+        sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
+        logInfo(filename, "Warnung aufgehoben!")
+    }
+end
+
+rule "Unwetter Notification #2"
+when
+    Item DWD_Obc_Description2 changed
+then
+    val String description2 = DWD_Obc_Description2.state.toString
+    val String headline2 = DWD_Obc_Headline2.state.toString
+    val String anweisungen2 = DWD_Obc_Instruction2.state.toString
+    if(description2 != "NULL") {
+        sendNotification("philipp@netzhost24.de", "Achtung! " + headline2)
+        mailActions.sendMail("philipp@netzhost24.de", headline2, description2 + " " + anweisungen2)
+        logInfo(filename, headline2 + " " + description2)
+    } else {
+        sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
+        logInfo(filename, "Warnung aufgehoben!")
+    }
+end
+
+rule "Unwetter Notification #3"
+when
+    Item DWD_Obc_Description3 changed
+then
+    val String description3 = DWD_Obc_Description3.state.toString
+    val String headline3 = DWD_Obc_Headline3.state.toString
+    val String anweisungen3 = DWD_Obc_Instruction3.state.toString
+    if(description3 != "NULL") {
+        sendNotification("philipp@netzhost24.de", "Achtung! " + headline3)
+        mailActions.sendMail("philipp@netzhost24.de", headline3, description3 + " " + anweisungen3)
+        logInfo(filename, headline3 + " " + description3)
+    } else {
+        sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
+        logInfo(filename, "Warnung aufgehoben!")
+    }
+end

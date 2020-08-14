@@ -1,0 +1,73 @@
+// ADMIN
+rule "Reload all from gateway"
+when
+    System started or
+    Time cron "0 0/5 * * * ?"
+then
+    HmIP_ReloadAllFromGateway.sendCommand(ON)
+    logInfo("HmIP Reload all from gateway", "HmIP Werte aktualisiert.")
+end
+
+rule "HmIP Install Mode auto off"
+when
+    Item HmIP_InstallMode changed to ON
+then
+    
+    val int HmIPInstallModeTime = 60 // 60 Sekunden
+    createTimer(now.plusSeconds(HmIPInstallModeTime), [ | 
+        HmIP_InstallMode.sendCommand(OFF)
+        logInfo("HmIP Install Mode", "HmIP Install Mode set to OFF after 60 seconds.")
+    ])
+end
+
+// FENSTER
+
+rule "Batterie Büro Fenster links"
+when
+    Item Fenster_Buero_links_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Büro Fenster links niedrig!")
+    logInfo("HmIP Fenster Büro links", "Batterie Büro Fenster links niedrig!")
+end
+
+rule "Batterie Büro Fenster rechts"
+when
+    Item Fenster_Buero_rechts_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Büro Fenster rechts niedrig!")
+    logInfo("HmIP Fenster Büro rechts", "Batterie Büro Fenster links niedrig!")
+end
+
+// TEMPERATUR
+
+rule "Batterie Temperatur Büro"
+when
+    Item Temp_Buero_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Temperatur Büro niedrig!")
+    logInfo("HmIP Temperatur Büro", "Batterie Temperatur Büro niedrig!")
+end
+
+rule "Batterie Temperatur Schlafzimmer"
+when
+    Item Temp_Schlaf_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Temperatur Schlafzimmer niedrig!")
+    logInfo("HmIP Temperatur Schlafzimmer", "Batterie Temperatur Schlafzimmer niedrig!")
+end
+
+rule "Batterie Temperatur Wohnzimmer"
+when
+    Item Temp_Wohn_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Temperatur Wohnzimmer niedrig!")
+    logInfo("HmIP Temperatur Wohnzimmer", "Batterie Temperatur Wohnzimmer niedrig!")
+end
+
+rule "Batterie Temperatur Küche"
+when
+    Item Temp_Kueche_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Temperatur Küche niedrig!")
+    logInfo("HmIP Temperatur Küche", "Batterie Temperatur Küche niedrig!")
+end

@@ -1,0 +1,50 @@
+// Addition: needed imports and declarations
+import java.util.Map
+var Timer chartTimer = null 
+var String logName = "Grafana" 
+
+// here starts rikoshak's code
+rule "Pull charts from Grafana Syshost"
+when
+        Item ChartVisibility changed or
+        System started
+then
+        val argTemplate = "/usr/bin/wget 'http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=%FROM%&to=now&panelId=%PID%&width=1000&height=500&tz=Europe%2FBerlin&timeout=10000' -O /etc/openhab2/html/%OUT%"
+
+        val Map<String, String> panels = newHashMap("6" -> "syshost_uptime",
+                                                    "2" -> "syshost_hdd",
+                                                    "8" -> "syshost_swap",
+                                                    "12" -> "syshost_cpuload",
+                                                    "14" -> "syshost_cputhreads",
+                                                    "4" -> "syshost_ram")
+        if(chartTimer === null) { // Addition: added a third '=' to remove a warning with the null compare 
+                chartTimer = createTimer(now, [ |
+                        val startTime = now.millis
+                        logInfo(logName, "Getting Syshost chart images...")
+
+                        val period = ChartVisibility.state.toString
+                        panels.keySet().forEach[ pid |
+                                val String template = argTemplate.replace("%PID%", pid).replace("%OUT%", panels.get(pid)+".jpg")
+                                val String fr       = if( period == "NULL" || period == "UNDEF" ) "now-1h" else "now-"+period
+                                val String results  = executeCommandLine(template.replace("%FROM%", fr), 5000)
+                                logInfo(logName, "Results from wget for " + pid + " and period " + period) // + "\n" + results)
+                        ]
+
+                        var Number reschedTime = 5*60*1000
+                        switch(period) {
+                                case "d": reschedTime = 5*60*1000     // 5 minutes
+                                case "w": reschedTime = 15*60*1000    // 15 minutes
+                                case "M": reschedTime = 60*60*1000    // 1 hour
+                                case "y": reschedTime = 12*60*60*1000 // 1 day
+                        }
+
+                        reschedTime = reschedTime - (now.millis - startTime)
+                        if(reschedTime.intValue < 0) reschedTime = 0
+                        logInfo(logName, "Done grabbing Syshost charts, rescheduling in " + reschedTime + " milliseconds.")
+                        chartTimer.reschedule(now.plusMillis(reschedTime.intValue))
+                ])
+        }
+        else {
+                chartTimer.reschedule(now)
+        }
+end

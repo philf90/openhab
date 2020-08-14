@@ -1,0 +1,6 @@
+rule "Init Location"
+when
+    System started
+then
+    HomeLocation.postUpdate(new PointType("49.19682376695917,8.190399867816302"))
+end

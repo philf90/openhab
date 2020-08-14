@@ -1,0 +1,15 @@
+val String filename = "anwesenheit.rules"
+
+rule "Anwesenheit Annalena"
+when
+    Item fbox_AnnalenaHandyOnline changed to OPEN
+then
+    logInfo(filename, "Annalena ist zu Hause.")
+end
+
+rule "Anwesenheit Annalena"
+when
+    Item fbox_PhilippHandyOnline changed to OPEN
+then
+    logInfo(filename, "Philipp ist zu Hause.")
+end
