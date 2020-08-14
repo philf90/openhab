@@ -1,0 +1,12 @@
+// Lichter
+Color Hue_gBad_Color                            "Farbe"                                                 <rgbkreis>                                                      (Raum_Bad, Lichter_Hue)                                         {channel="hue:group:ecb5fa312e01:1:color"}
+Dimmer Hue_gBad_ColorTemperature                "Farbtemperatur"                                                                                                        (Raum_Bad, Lichter_Hue)                                         {channel="hue:group:ecb5fa312e01:1:color_temperature"}
+Dimmer Hue_gBad_Brightness                      "Helligkeit"                                                                                                            (Raum_Bad, Lichter_Hue)                                         {channel="hue:group:ecb5fa312e01:1:brightness"}
+
+Color Hue_WhzLowboard_Color                     "Farbe"                                                 <licht_an>                                                      (Raum_Wohnzimmer, Lichter_Hue, Sum_Lichter)                     {channel="hue:0210:ecb5fa312e01:3:color"}
+Dimmer Hue_WhzLowboard_ColorTemperature         "Farbtemperatur"                                                                                                        (Raum_Wohnzimmer, Lichter_Hue)                                  {channel="hue:0210:ecb5fa312e01:3:color_temperature"}
+Switch Hue_WhzLowboard_Effect                   "Farbeffekt"                                                                                                            (Raum_Wohnzimmer, Lichter_Hue)                                  {channel="hue:0210:ecb5fa312e01:3:effect"}
+Dimmer Hue_WhzLowboard_Dimmer                   "Dimmer [%s %%]"                                                                                                        (Raum_Wohnzimmer, Lichter_Hue)                                  {channel="hue:0210:ecb5fa312e01:3:color"}
+String Hue_WhzLowBoard_Selector                 "Szenen"                                                <licht_automatisierung>                                         (Raum_Wohnzimmer, Lichter_Hue)
+
+Dimmer Hue_WhzBogenlampe_Brightness             "Helligkeit"                                                                                                            (Raum_Wohnzimmer, Lichter_Hue, Sum_Lichter)                     {channel="hue:0100:ecb5fa312e01:4:brightness"}

@@ -1,0 +1,14 @@
+sitemap annalena label="Annalena" {
+    Frame label="Licht Lowboard" icon="light" {
+        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
+        Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
+        Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
+        Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
+        Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+        Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+    }
+    Frame label="Licht Bogenlampe" {
+        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+        Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+    }
+}

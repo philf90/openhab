@@ -1,0 +1,768 @@
+sitemap home label="Hauptmenü"
+{
+    // AKTUELL
+    Frame label="Aktuell" {
+        Default item=DatumUhrzeit
+        Default item=OWM_CurrentTemperature
+        Default item=Astro_Sonne_RiseStart
+        Default item=Astro_Sonne_SetStart
+        //Mapview item=HomeLocation height=5
+    }
+
+    // ANWEISENHEIT
+    Frame label="Anwesenheit" {
+        Default item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == OPEN] valuecolor=[==OPEN="green"]
+        Default item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
+        Default item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"]
+        Default item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
+    }
+
+    // INTERNET & NETZWERK
+    Frame label="Internet & Netzwerk" {
+        Text label="System Host" item=SysHostName icon="system_2" {
+            Frame label="OS" {
+                Default item=SysHostName
+                Default item=SysHostVersion
+                Default item=SysHostKernel
+                Default item=SysHostOHVersion
+            }
+            Frame label="Infos" {
+                Default item=SysHostIP
+                Default item=SysHostNetworkName
+                Default item=SysHostCPU
+                Default item=SysHostUptime
+                Default item=SysHostMemTotal
+                Default item=SysHostMemFreePercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=SysHostSwapTotal
+                Default item=SysHostSwapFreePercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=SysHostHDDTotal
+                Default item=SysHostHDDFreePercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+            }
+            Frame label="Statistik" {
+                Switch item=SwitchGraphs mappings=[0="Uptime", 1="RAM", 2="Swap", 3="HDD", 4="Load", 5="Threads"]
+                Switch item=ChartVisibility mappings=[6h="6h", 12h="12h", d="Tag", w="Woche", 30d="Monat"]
+                Image url="http://openhab/static/syshost_uptime.jpg" refresh=1000 visibility=[SwitchGraphs==0]
+                Image url="http://openhab/static/syshost_ram.jpg" refresh=1000 visibility=[SwitchGraphs==1]
+                Image url="http://openhab/static/syshost_swap.jpg" refresh=1000 visibility=[SwitchGraphs==2]
+                Image url="http://openhab/static/syshost_hdd.jpg" refresh=1000 visibility=[SwitchGraphs==3]
+                Image url="http://openhab/static/syshost_cpuload.jpg" refresh=1000 visibility=[SwitchGraphs==4]
+                Image url="http://openhab/static/syshost_cputhreads.jpg" refresh=1000 visibility=[SwitchGraphs==5]
+            }
+        }
+        Text item=fboxName label="FRITZ!box" icon="router" {
+            Frame label="Admin" visibility=[fboxUptime>0] {
+                Switch item=fboxReboot mappings=[ON="Reboot"]
+                Switch item=fboxGuestWifi  mappings=[OFF="Aus",ON="An"]
+            }
+            Frame label="Infos" {
+                Default item=fboxName
+                Default item=fboxManufacturer
+                Default item=fboxSerial
+                Default item=fboxVersion
+                Default item=fboxUptime
+                Default item=fboxWanIP
+                Default item=fboxWanAccessType
+                Default item=fboxWanPhysicalLinkStatus
+            }
+            Frame label="DSL" {
+                Default item=fboxDslEnable
+                Default item=fboxDslStatus
+                Default item=fboxDslDownstreamCurrRate
+                Default item=fboxDslUpstreamCurrRate
+                Default item=fboxDslDownstreamMaxRate
+                Default item=fboxDslUpstreamMaxRate
+                Default item=fboxDslDownstreamNoiseMargin
+                Default item=fboxDslUpstreamNoiseMargin
+                Default item=fboxDslDownstreamAttenuation
+                Default item=fboxDslUpstreamAttenuation
+            }
+            Frame label="Gäste WLAN" visibility=[fboxGuestWifi==ON] {
+                Image url="http://openhab/static/fbguestwifiqr.png"
+            }
+            Frame label="Statistik" {
+                Switch item=SwitchGraphsFbDatarate mappings=[0="Speed", 1="Kapazität"]
+                Switch item=ChartVisibilityFbDatarate mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/fritzbox_result.jpg" refresh=1000 visibility=[SwitchGraphsFbDatarate == 0]
+                Image url="http://openhab/static/fritzbox_leitungskapazitaet.jpg" refresh=1000 visibility=[SwitchGraphsFbDatarate == 1]
+            }
+        }
+        Text item=SpeedtestSummary {
+            Frame label="Ergebnisse" {
+                Text item=SpeedtestResultDown
+                Text item=SpeedtestResultUp
+                Text item=SpeedtestResultPing
+            }
+            Frame label="Steuerung" {
+                Text item=SpeedtestResultDate
+                Text item=SpeedtestRunning label="Speedtest [%s]" visibility=[SpeedtestRunning != "-"]
+                Switch item=SpeedtestRerun mappings=[ON="Start"]
+            }
+            Frame label="Statistik" {
+                Switch item=SwitchGraphsSpeedtest mappings=[0="Speed", 1="Ping"]
+                Switch item=ChartVisibilitySpeedtest mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/speedtest_result.jpg" refresh=1000 visibility=[SwitchGraphsSpeedtest==0]
+                Image url="http://openhab/static/speedtest_ping.jpg" refresh=1000 visibility=[SwitchGraphsSpeedtest==1]
+            }
+        }
+        Text label="Homematic IP [Duty Cycle: %d %%]" icon="homematicip" item=HmIP_StatusDutyCycle {
+            Frame label="Admin" {
+                Default item=HmIP_StatusDutyCycle valuecolor=[<=50="green", <80="orange", <100="red"]
+                Switch item=HmIP_ReloadAllFromGateway mappings=[ON="An"] visibility=[HmIP_ReloadAllFromGateway == OFF]
+                Switch item=HmIP_InstallMode mappings=[ON="Start"] visibility=[HmIP_InstallMode == OFF]
+                Default item=HmIP_InstallModeDuration
+            }
+        }
+    }
+    
+    // RÄUME
+    Frame label="Räume" {
+        Text label="Wohnzimmer" icon="wohnzimmer" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Wohn_TEMPERATURE
+                Default item=Temp_Wohn_HUMIDITY
+            }
+            Frame label="Licht Lowboard" {
+                Switch item=Hue_WhzLowboard_Color label="Licht Lowboard" mappings=[ON="An", OFF="Aus"]
+                Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
+                Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
+                Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
+                Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+            }
+            Frame label="Licht Bogenlampe" {
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+            }
+            Frame label="TV" {
+                Switch item=TV_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                Switch item=TV_Wohnzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_MZ_Vol icon="soundvolume" visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
+                Default item=TV_Wohnzimmer_Player visibility=[TV_Wohnzimmer_OnOff == ON]
+                Default item=TV_Wohnzimmer_Application visibility=[TV_Wohnzimmer_OnOff == ON]
+            }
+            Frame label="AV Receiver" {
+                Switch item=AVR_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                Default item=AVR_Wohnzimmer_MZ_Vol visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Switch item=AVR_Wohnzimmer_MZ_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_MZ_Source visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_Surround visibility=[AVR_Wohnzimmer_OnOff == ON]
+            }
+            Frame label="Media Receiver" {
+                Switch item=IPTV_MR401_Power mappings=[ON="An", OFF="Aus"]
+                Default item=IPTV_MR401_Key
+                Default item=IPTV_MR401_Player
+                Switch item=IPTV_MR401_Mute mappings=[ON="Mute", OFF="Unmute"]
+                Text item=IPTV_MR401_Channel
+                Default item=IPTV_MR401_ProgramTitle
+                Default item=IPTV_MR401_ProgramText
+                Default item=IPTV_MR401_ProgramStart
+                Default item=IPTV_MR401_Duration
+            }
+            Frame label="Kodi" {
+                Selection item=Kodi_Control mappings=[PLAY='Play', PAUSE='Pause', NEXT='Next', PREVIOUS='Previous', FASTFORWARD='Fastforward', REWIND='Rewind']
+                Default item=Kodi_Control
+                Slider item=Kodi_Volume
+                Selection item=Kodi_Input mappings=[Up='Hoch', Down='Runter', Left='Links', Right='Rechts', Select='Select', Back='Zurück', Home='Home', ContextMenu='ContextMenu', Info='Info']
+                Switch item=Kodi_Stop mappings=[ON="Stop"]
+            }
+        }
+        Text label="Büro" icon="buero" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Buero_ACTUALTEMPERATURE
+                Default item=Temp_Buero_HUMIDITY
+            }
+            Frame label="Fenster" {
+                Default item=Fenster_Buero_links_STATE
+                Default item=Fenster_Buero_rechts_STATE
+            }
+            Frame label="Sonos One SL" {
+                Text item=Sonos_Buero_Status
+                Default item=Sonos_Buero_Player
+                Default item=Sonos_Buero_Volume
+                Switch item=Sonos_Buero_Mute mappings=[ON="Mute", OFF="Unmute"]
+                Default item=Sonos_Buero_Titel
+                Default item=Sonos_Buero_Artist
+                Default item=Sonos_Buero_Favorit
+            }
+            Frame label="HP Color LaserJet MFP M283fdw" {
+                Default item=Drucker_Status
+                Default item=Drucker_ScannerStatus
+                Default item=Drucker_InkBlackLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkCyanLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkMagentaLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkYellowLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_UsageTotalColorCount
+                Default item=Drucker_UsageTotalMonochromeCount
+            }
+        }
+        Text label="Bad" icon="bad" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Bad_gross_TEMPERATURE
+                Default item=Temp_Bad_gross_HUMIDITY
+            }
+            Frame label="Licht Spiegelschrank" {
+                Default item=Hue_gBad_Color
+                Default item=Hue_gBad_ColorTemperature
+                Default item=Hue_gBad_Brightness
+            }
+            Frame label="Sonos One SL" {
+                Text item=Sonos_Bad_Status
+                Default item=Sonos_Bad_Player
+                Default item=Sonos_Bad_Volume
+                Switch item=Sonos_Bad_Mute mappings=[ON="Mute", OFF="Unmute"]
+                Default item=Sonos_Bad_Titel
+                Default item=Sonos_Bad_Artist
+                Default item=Sonos_Bad_Favorit
+            }
+            Frame label="Heizung" {
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_gross_BOOSTMODE == OFF]
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
+                Default item=Temp_Bad_gross_FROSTPROTECTION
+                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="heizung_2" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "HEATING"]
+                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="kuehlung" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "COOLING"]
+                Default item=Temp_Bad_gross_ACTIVEPROFILE
+                Switch item=Temp_Bad_gross_Schaltzustand mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
+                Switch item=Temp_Bad_gross_Schaltzustand mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
+                Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_gross_Heizventil == OFF]
+                Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_gross_Heizventil == ON]
+            }
+        }
+        Text label="Schlafzimmer" icon="schlafzimmer" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Schlaf_TEMPERATURE
+                Default item=Temp_Schlaf_HUMIDITY
+            }
+            Frame label="TV" {
+                Switch item=TV_Schlafzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                Switch item=TV_Schlafzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Schlafzimmer_OnOff == ON]
+                Slider item=TV_Schlafzimmer_Volume visibility=[TV_Schlafzimmer_OnOff == ON]
+                Default item=TV_Schlafzimmer_Player visibility=[TV_Schlafzimmer_OnOff == ON]
+                Default item=TV_Schlafzimmer_Application visibility=[TV_Schlafzimmer_OnOff == ON]
+            }
+            Frame label="Media Receiver" {
+                Switch item=IPTV_MR201_Power mappings=[ON="An", OFF="Aus"]
+                Default item=IPTV_MR201_Key
+                Default item=IPTV_MR201_Player
+                Switch item=IPTV_MR201_Mute mappings=[ON="Mute", OFF="Unmute"]
+                Text item=IPTV_MR201_Channel
+                Default item=IPTV_MR201_ProgramTitle
+                Default item=IPTV_MR201_ProgramText
+                Default item=IPTV_MR201_ProgramStart
+                Default item=IPTV_MR201_Duration
+            }
+        }
+        Text label="Küche" icon="kueche" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Kueche_TEMPERATURE
+                Default item=Temp_Kueche_HUMIDITY
+            }
+        }
+    }
+
+    // GEWERKE
+    Frame label="Gewerke" {
+        Text label="Lichter [an: %d]" icon="light" item=Sum_Lichter {
+            Frame label="Alle Lichter" {
+                Text label="Wohnzimmer" icon="light" {
+                    Frame label="Lowboard" {
+                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
+                        Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
+                        Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
+                        Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
+                        Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                        Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+                    }
+                    Frame label="Bogenlampe" {
+                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                        Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+                    }
+                }
+                Text label="Badezimmer" icon="light" {
+                    Frame label="Spiegelschrank" {
+                        Default item=Hue_gBad_Color
+                        Default item=Hue_gBad_ColorTemperature
+                        Default item=Hue_gBad_Brightness
+                    }
+                }
+            }
+        }
+        Text label="Fenster [offen: %d]" icon="window" item=Sum_Fenster {
+            Frame label="Fenster" {
+                Default item=Fenster_Buero_links_STATE
+                Default item=Fenster_Buero_rechts_STATE
+            }
+        }
+        Text label="Temperatur" icon="temperatur" {
+            Frame label="Temperatur" {
+                Default item=OWM_CurrentTemperature
+                Default item=Temp_Bad_gross_TEMPERATURE
+                Default item=Temp_Buero_ACTUALTEMPERATURE
+                Default item=Temp_Schlaf_TEMPERATURE
+                Default item=Temp_Wohn_TEMPERATURE
+                Default item=Temp_Kueche_TEMPERATURE
+            }
+            Frame label="Statistik" {
+                Switch item=ChartVisibilityTemperatur mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/temperatur_wohnung.jpg" refresh=1000
+            }
+        }
+        Text label="Heizung" icon="heizung" {
+            Frame label="Bad" {
+                Default item=Temp_Bad_gross_TEMPERATURE
+                Default item=Temp_Bad_gross_HUMIDITY
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_gross_BOOSTMODE == OFF]
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
+                Default item=Temp_Bad_gross_FROSTPROTECTION
+                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="heizung_2" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "HEATING"]
+                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="kuehlung" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "COOLING"]
+                Default item=Temp_Bad_gross_ACTIVEPROFILE
+                Switch item=Temp_Bad_gross_Schaltzustand mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
+                Switch item=Temp_Bad_gross_Schaltzustand mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
+                Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_gross_Heizventil == OFF]
+                Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_gross_Heizventil == ON]
+            }
+        }
+    }
+
+    // MEDIA
+    Frame label="Media" {
+        Text label="TVs" icon="screen" {
+            Frame label="Fernseher" {
+                Text label="TV Wohnzimmer" icon="screen" {
+                    Frame label="Steuerung" {
+                        Switch item=TV_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                        Switch item=TV_Wohnzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Wohnzimmer_OnOff == ON]
+                        Default item=AVR_Wohnzimmer_MZ_Vol icon="soundvolume" visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
+                        Default item=TV_Wohnzimmer_Player visibility=[TV_Wohnzimmer_OnOff == ON]
+                        Default item=TV_Wohnzimmer_Application visibility=[TV_Wohnzimmer_OnOff == ON]
+                    }
+                }
+                Text label="TV Schlafzimmer" icon="screen" {
+                    Frame label="Steuerung" {
+                        Switch item=TV_Schlafzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                        Switch item=TV_Schlafzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Schlafzimmer_OnOff == ON]
+                        Slider item=TV_Schlafzimmer_Volume visibility=[TV_Schlafzimmer_OnOff == ON]
+                        Default item=TV_Schlafzimmer_Player visibility=[TV_Schlafzimmer_OnOff == ON]
+                        Default item=TV_Schlafzimmer_Application visibility=[TV_Schlafzimmer_OnOff == ON]
+                    }
+                }
+            }
+        }
+        Text label="AV Receiver" icon="receiver" {
+            Frame label="Steuerung" {
+                Switch item=AVR_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
+                Default item=AVR_Wohnzimmer_MZ_Vol visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Switch item=AVR_Wohnzimmer_MZ_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_MZ_Source visibility=[AVR_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_Surround visibility=[AVR_Wohnzimmer_OnOff == ON]
+            }
+        }
+        Text label="MagentaTV" icon="magentatv" {
+            Frame label="Media Receiver" {
+                Text label="MR401 Wohnzimmer" icon="magentatv" {
+                    Frame label="Steuerung" {
+                        Switch item=IPTV_MR401_Power mappings=[ON="An", OFF="Aus"]
+                        Default item=IPTV_MR401_Key
+                        Default item=IPTV_MR401_Player
+                        Switch item=IPTV_MR401_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        Text item=IPTV_MR401_Channel
+                        Default item=IPTV_MR401_ProgramTitle
+                        Default item=IPTV_MR401_ProgramText
+                        Default item=IPTV_MR401_ProgramStart
+                        Default item=IPTV_MR401_Duration
+                    }
+                }
+                Text label="MR201 Schlafzimmer" icon="magentatv" {
+                    Frame label="Steuerung" {
+                        Switch item=IPTV_MR201_Power mappings=[ON="An", OFF="Aus"]
+                        Default item=IPTV_MR201_Key
+                        Default item=IPTV_MR201_Player
+                        Switch item=IPTV_MR201_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        Text item=IPTV_MR201_Channel
+                        Default item=IPTV_MR201_ProgramTitle
+                        Default item=IPTV_MR201_ProgramText
+                        Default item=IPTV_MR201_ProgramStart
+                        Default item=IPTV_MR201_Duration
+                    }
+                }
+            }
+        }
+        Text label="Sonos" icon="sonos" {
+            Frame label="Sonos" {
+                Text label="Sonos One SL (Bad)" icon="sonos" {
+                    Frame label="Steuerung" {
+                        Text item=Sonos_Bad_Status
+                        Default item=Sonos_Bad_Player
+                        Default item=Sonos_Bad_Volume
+                        Switch item=Sonos_Bad_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        Default item=Sonos_Bad_Titel
+                        Default item=Sonos_Bad_Artist
+                        Default item=Sonos_Bad_Favorit
+                    }
+                }
+                Text label="Sonos One SL (Büro)" icon="sonos" {
+                    Frame label="Steuerung" {
+                        Text item=Sonos_Buero_Status
+                        Default item=Sonos_Buero_Player
+                        Default item=Sonos_Buero_Volume
+                        Switch item=Sonos_Buero_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        Default item=Sonos_Buero_Titel
+                        Default item=Sonos_Buero_Artist
+                        Default item=Sonos_Buero_Favorit
+                    }
+                }
+            }
+        }
+        Text label="Spotify" icon="spotify" {
+            Text label="Spotify Player" icon="spotify" {
+                Frame label="Steuerung" {
+                    Selection item=Spotify_Devices
+                    Default item=Spotify_Player
+                    Selection item=Spotify_Playlists
+                    Switch item=Spotify_Shuffle
+                    Default item=Spotify_Repeat
+                    Text item=Spotify_TrackProgress
+                    Text item=Spotify_TrackDuration
+                    Text item=Spotify_TrackName
+                    Text item=Spotify_ArtistName
+                    Text item=Spotify_AlbumName
+                    Image item=Spotify_AlbumImage
+                }
+            }
+            Text label="Spotify Connect Denon AVR-X2500H" icon="spotify" visibility=[Spotify_Name=="Denon AVR-X2500H"] {
+                Frame label="Steuerung" {
+                    Switch item=AVR_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"] visibility=[AVR_Wohnzimmer_OnOff==ON]
+                    Text item=Spotify_AVR_DeviceName
+                    Default item=Spotify_AVR_DevicePlayer
+                    Default item=AVR_Wohnzimmer_MZ_Vol visibility=[AVR_Wohnzimmer_OnOff==ON]
+                }
+            }
+        }
+        Text label="Kodi" icon="kodi" {
+            Frame label="Steuerung" {
+                Selection item=Kodi_Control mappings=[PLAY='Play', PAUSE='Pause', NEXT='Next', PREVIOUS='Previous', FASTFORWARD='Fastforward', REWIND='Rewind']
+                Default item=Kodi_Control
+                Slider item=Kodi_Volume
+                Selection item=Kodi_Input mappings=[Up='Hoch', Down='Runter', Left='Links', Right='Rechts', Select='Select', Back='Zurück', Home='Home', ContextMenu='ContextMenu', Info='Info']
+                Switch item=Kodi_Stop mappings=[ON="Stop"]
+            }
+        }
+        Text label="HP Color LaserJet MFP M283fdw" icon="drucker" {
+            Frame label="Status" {
+                Default item=Drucker_Status
+                Default item=Drucker_ScannerStatus
+            }
+            Frame label="Toner" {
+                Default item=Drucker_InkBlackLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkCyanLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkMagentaLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+                Default item=Drucker_InkYellowLevel valuecolor=[>=50="green", >=20="orange", <20="red"]
+            }
+            Frame label="Verbleibende Seiten" {
+                Default item=Drucker_UsageBlackPagesRemaining
+                Default item=Drucker_UsageCyanPagesRemaining
+                Default item=Drucker_UsageMagentaPagesRemaining
+                Default item=Drucker_UsageYellowPagesRemaining
+            }
+            Frame label="Gedruckte Seiten" {
+                Default item=Drucker_UsageTotalColorCount
+                Default item=Drucker_UsageTotalMonochromeCount
+            }
+        }
+    }
+
+    // WETTER
+    Frame label="Wetter" {
+        Text label="Wetter" icon="wetter" item=OWM_CurrentTemperature {
+            Frame label="Aktuell" {
+                Default item=OWM_StationName
+                Default item=OWM_CurrentTimeStamp
+                Default item=OWM_CurrentIcon
+                Default item=OWM_CurrentCondition
+                Default item=OWM_CurrentTemperature
+                Default item=OWM_CurrentApparentTemperature
+                Default item=OWM_CurrentPressure
+                Default item=OWM_CurrentHumidity
+                Default item=OWM_CurrentWindSpeed
+                Default item=OWM_CurrentWindDirection
+                Default item=OWM_CurrentCloudiness
+                Default item=OWM_CurrentRain
+                Default item=OWM_CurrentSnow
+                Default item=OWM_CurrentVisibility
+                Default item=OWM_CurrentUvindex
+            }
+            Frame label="Statistik" {
+                Switch item=ChartVisibilityWetter mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/wetter_aussentemperatur.jpg" refresh=1000
+            }
+            Frame label="Vorhersagen" {
+                Text label="Nächste 3 Stunden" icon="wetter" {
+                    Frame label="Nächste 3 Stunden" {
+                        Default item=OWM_ForecastHours03TimeStamp
+                        Default item=OWM_ForecastHours03Condition
+                        Default item=OWM_ForecastHours03Icon
+                        Default item=OWM_ForecastHours03Temperature
+                        Default item=OWM_ForecastHours03ApparentTemperature
+                        Default item=OWM_ForecastHours03MinTemperature
+                        Default item=OWM_ForecastHours03MaxTemperature
+                        Default item=OWM_ForecastHours03Pressure
+                        Default item=OWM_ForecastHours03Humidity
+                        Default item=OWM_ForecastHours03WindSpeed
+                        Default item=OWM_ForecastHours03WindDirection
+                        Default item=OWM_ForecastHours03Cloudiness
+                        Default item=OWM_ForecastHours03Rain
+                        Default item=OWM_ForecastHours03Snow
+                    }
+                }
+                Text label="Nächste 6 Stunden" icon="wetter" {
+                    Frame label="Nächste 6 Stunden" {
+                        Default item=OWM_ForecastHours06TimeStamp
+                        Default item=OWM_ForecastHours06Condition
+                        Default item=OWM_ForecastHours06Icon
+                        Default item=OWM_ForecastHours06Temperature
+                        Default item=OWM_ForecastHours06ApparentTemperature
+                        Default item=OWM_ForecastHours06MinTemperature
+                        Default item=OWM_ForecastHours06MaxTemperature
+                        Default item=OWM_ForecastHours06Pressure
+                        Default item=OWM_ForecastHours06Humidity
+                        Default item=OWM_ForecastHours06WindSpeed
+                        Default item=OWM_ForecastHours06WindDirection
+                        Default item=OWM_ForecastHours06Cloudiness
+                        Default item=OWM_ForecastHours06Rain
+                        Default item=OWM_ForecastHours06Snow
+                    }
+                }
+                Text label="Nächste 12 Stunden" icon="wetter" {
+                    Frame label="Nächste 12 Stunden" {
+                        Default item=OWM_ForecastHours12TimeStamp
+                        Default item=OWM_ForecastHours12Condition
+                        Default item=OWM_ForecastHours12Icon
+                        Default item=OWM_ForecastHours12Temperature
+                        Default item=OWM_ForecastHours12ApparentTemperature
+                        Default item=OWM_ForecastHours12MinTemperature
+                        Default item=OWM_ForecastHours12MaxTemperature
+                        Default item=OWM_ForecastHours12Pressure
+                        Default item=OWM_ForecastHours12Humidity
+                        Default item=OWM_ForecastHours12WindSpeed
+                        Default item=OWM_ForecastHours12WindDirection
+                        Default item=OWM_ForecastHours12Cloudiness
+                        Default item=OWM_ForecastHours12Rain
+                        Default item=OWM_ForecastHours12Snow
+                    }
+                }
+                Text label="Nächste 24 Stunden" icon="wetter" {
+                    Frame label="Nächste 24 Stunden" {
+                        Default item=OWM_ForecastHours24TimeStamp
+                        Default item=OWM_ForecastHours24Condition
+                        Default item=OWM_ForecastHours24Icon
+                        Default item=OWM_ForecastHours24Temperature
+                        Default item=OWM_ForecastHours24ApparentTemperature
+                        Default item=OWM_ForecastHours24MinTemperature
+                        Default item=OWM_ForecastHours24MaxTemperature
+                        Default item=OWM_ForecastHours24Pressure
+                        Default item=OWM_ForecastHours24Humidity
+                        Default item=OWM_ForecastHours24WindSpeed
+                        Default item=OWM_ForecastHours24WindDirection
+                        Default item=OWM_ForecastHours24Cloudiness
+                        Default item=OWM_ForecastHours24Rain
+                        Default item=OWM_ForecastHours24Snow
+                    }
+                }
+            }
+        }
+        Text label="Unwetterwarnung [Warnungen: %d]" icon="dwd" item=Sum_DWD_Unwetter {
+            Frame label="Info" {
+                Default item=DWD_Obc_LastUpdated
+            }
+            Frame label="Warnung" visibility=[DWD_Obc_Warning == ON] {
+                Default item=DWD_Obc_Headline
+                Default item=DWD_Obc_Description
+                Default item=DWD_Obc_Event
+                Default item=DWD_Obc_Severity
+                Default item=DWD_Obc_Onset
+                Default item=DWD_Obc_Expires
+                Default item=DWD_Obc_Instruction
+            }
+            Frame label="Warnung" visibility=[DWD_Obc_Warning2 == ON] {
+                Default item=DWD_Obc_Headline2
+                Default item=DWD_Obc_Description2
+                Default item=DWD_Obc_Event2
+                Default item=DWD_Obc_Severity2
+                Default item=DWD_Obc_Onset2
+                Default item=DWD_Obc_Expires2
+                Default item=DWD_Obc_Instruction2
+           }
+            Frame label="Warnung" visibility=[DWD_Obc_Warning3 == ON] {
+                Default item=DWD_Obc_Headline3
+                Default item=DWD_Obc_Description3
+                Default item=DWD_Obc_Event3
+                Default item=DWD_Obc_Severity3
+                Default item=DWD_Obc_Onset3
+                Default item=DWD_Obc_Expires3
+                Default item=DWD_Obc_Instruction3
+           }
+        }
+    }
+
+    // AUTO
+    Frame label="Auto" {
+        Text label="OF LC 287" icon="volkswagen" {
+            Frame label="Allgemein" {
+                Default item=VW_Passat_DetailsName
+                Default item=VW_Passat_DetailsModel
+                //Default item=VW_Passat_DetailsModelCode
+                Default item=VW_Passat_DetailsModelYear
+                Default item=VW_Passat_DetailsEnrollmentDate
+                Default item=VW_Passat_DetailsImageURL
+                Mapview item=VW_Passat_PositionLocation height=5
+            }
+            Frame label="Fahrdaten gesamt" {
+                Default item=VW_Passat_TotalDistance
+                Default item=VW_Passat_TotalAverageSpeed
+                Default item=VW_Passat_TotalTripDistance
+                Default item=VW_Passat_TotalTripDuration
+            }
+            Frame label="Letzter Trip" {
+                Default item=VW_Passat_LasttripTripStartTime
+                Default item=VW_Passat_LasttripTripEndTime
+                Default item=VW_Passat_LasttripTripDuration
+                Default item=VW_Passat_LasttripTripDistance
+                Default item=VW_Passat_LasttripTripAverageSpeed
+                Default item=VW_Passat_LasttripAverageFuelConsumption
+            }
+            Frame label="Tank & Verbrauch" {
+                Default item=VW_Passat_FuelFuelLevel
+                Default item=VW_Passat_FuelFuelRange
+                Default item=VW_Passat_FuelFuelConsumption
+            }
+            Frame label="Fenster & Türen" {
+                Switch item=VW_Passat_DoorsDoorsLocked mappings=[ON="geschlossen"] visibility=[VW_Passat_DoorsDoorsLocked == ON]
+                Switch item=VW_Passat_DoorsDoorsLocked mappings=[OFF="offen"] visibility=[VW_Passat_DoorsDoorsLocked == OFF]
+                Switch item=VW_Passat_DoorsTrunkLocked mappings=[ON="geschlossen"] visibility=[VW_Passat_DoorsTrunkLocked == ON]
+                Switch item=VW_Passat_DoorsTrunkLocked mappings=[OFF="offen"] visibility=[VW_Passat_DoorsTrunkLocked == OFF]
+                Default item=VW_Passat_DoorsLeftFront
+                Default item=VW_Passat_WindowsLeftFrontWnd
+                Default item=VW_Passat_DoorsRightFront
+                Default item=VW_Passat_WindowsRightFrontWnd
+                Default item=VW_Passat_DoorsLeftBack
+                Default item=VW_Passat_WindowsLeftBackWnd
+                Default item=VW_Passat_DoorsRightBack
+                Default item=VW_Passat_WindowsRightBackWnd
+            }
+            Frame label="Scheibenheizung" {
+                Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingFront == ON]
+                Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingFront == OFF]
+                Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingRear == ON]
+                Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingRear == OFF]
+            }
+            Frame label="Service" {
+                Default item=VW_Passat_DetailsServiceInspectionStatus
+                Default item=VW_Passat_DetailsOilInspectionStatus
+            }
+        }
+        Text label="Benzinpreise" icon="tankstelle" {
+            Frame label="Benzinpreise" {
+                Text label="Aral Landau" icon="tankstelle" {
+                    Frame label="Aral Landau" {
+                        Default item=Aral_LD_Diesel
+                        Default item=Aral_LD_E5
+                        Default item=Aral_LD_E10
+                        Default item=Aral_LD_StationOpen
+                    }
+                }
+                Text label="Aral Offenbach" icon="tankstelle" {
+                    Frame label="Aral Offenbach" {
+                        Default item=Aral_Obc_Diesel
+                        Default item=Aral_Obc_E5
+                        Default item=Aral_Obc_E10
+                        Default item=Aral_Obc_StationOpen
+                    }
+                }
+                Text label="Hornbach" icon="tankstelle" {
+                    Frame label="Hornbach" {
+                        Default item=Hornbach_Diesel
+                        Default item=Hornbach_E5
+                        Default item=Hornbach_E10
+                        Default item=Hornbach_StationOpen
+                    }
+                }
+            }
+            Frame label="Statistik" {
+                Switch item=SwitchGraphsBenzinpreise mappings=[1="Aral LD", 2="Aral Obc", 3="Hornbach"]
+                Switch item=ChartVisibilityBenzinpreise mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/tankstelle_aral_ld.jpg" refresh=1000 visibility=[SwitchGraphsBenzinpreise==1]
+                Image url="http://openhab/static/tankstelle_aral_obc.jpg" refresh=1000 visibility=[SwitchGraphsBenzinpreise==2]
+                Image url="http://openhab/static/tankstelle_hornbach.jpg" refresh=1000 visibility=[SwitchGraphsBenzinpreise==3]
+            }
+        }
+    }
+
+    // SONSTIGES
+    Frame label="Sonstiges" {
+        Text label="Pollenflugindex" icon="wind" {
+            Frame label="Pollenflugindex" {
+                Default item=DWD_Pollen_Erle_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Erle_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Ambrosia_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Ambrosia_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Esche_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Esche_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Birke_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Birke_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Gras_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Gras_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Hasel_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Hasel_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Beifuss_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Beifuss_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Roggen_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Roggen_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+            }
+        }
+        Text label="Astro" icon="wahrsager" {
+            Frame label="Sonne" {
+                Default item=Astro_Sonne_RiseStart
+                Default item=Astro_Sonne_SetStart
+            }
+            Frame label="Mond" {
+                Default item=Astro_Mond_PhaseName visibility=[Astro_Mond_PhaseName != "FULL", Astro_Mond_PhaseName != "NEW"]
+                Default item=Astro_Mond_PhaseName icon="astro_vollmond" visibility=[Astro_Mond_PhaseName == "FULL"]
+                Default item=Astro_Mond_PhaseName icon="astro_neumond" visibility=[Astro_Mond_PhaseName == "NEW"]
+                Default item=Astro_Mond_DistanceDistance
+            }
+            Frame label="Aktuelle Jahreszeit" {
+                Default item=Astro_Sonne_SeasonName icon="jahreszeit_fruehling" visibility=[Astro_Sonne_SeasonName == "SPRING"]
+                Default item=Astro_Sonne_SeasonName icon="jahreszeit_sommer" visibility=[Astro_Sonne_SeasonName == "SUMMER"]
+                Default item=Astro_Sonne_SeasonName icon="jahreszeit_herbst" visibility=[Astro_Sonne_SeasonName == "AUTUMN"]
+                Default item=Astro_Sonne_SeasonName icon="jahreszeit_winter" visibility=[Astro_Sonne_SeasonName == "WINTER"]    
+                Default item=Astro_Sonne_SeasonTimeLeft
+            }
+            Frame label="Beginn Jahreszeiten" {
+                Default item=Astro_Sonne_SeasonSpring
+                Default item=Astro_Sonne_SeasonSummer
+                Default item=Astro_Sonne_SeasonAutumn
+                Default item=Astro_Sonne_SeasonWinter
+            }
+            Frame label="Sternzeichen" {
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_widder" visibility=[Astro_Sonne_ZodiacSign == "ARIES"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_stier" visibility=[Astro_Sonne_ZodiacSign == "TAURUS"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_zwillinge" visibility=[Astro_Sonne_ZodiacSign == "GEMINI"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_krebs" visibility=[Astro_Sonne_ZodiacSign == "CANCER"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_loewe" visibility=[Astro_Sonne_ZodiacSign == "LEO"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_jungfrau" visibility=[Astro_Sonne_ZodiacSign == "VIRGO"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_waage" visibility=[Astro_Sonne_ZodiacSign == "LIBRA"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_skorpion" visibility=[Astro_Sonne_ZodiacSign == "SCORPIO"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_schuetze" visibility=[Astro_Sonne_ZodiacSign == "SAGITTARIUS"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_steinbock" visibility=[Astro_Sonne_ZodiacSign == "CAPRICORN"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_wassermann" visibility=[Astro_Sonne_ZodiacSign == "AQUARIUS"]
+                Default item=Astro_Sonne_ZodiacSign icon="sternzeichen_fische" visibility=[Astro_Sonne_ZodiacSign == "PISCES"]
+                Default item=Astro_Sonne_ZodiacStart
+                Default item=Astro_Sonne_ZodiacEnd
+            }
+        }
+    }
+}

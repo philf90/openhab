@@ -1,0 +1,18 @@
+// Grafana
+String SwitchGraphs                             "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibility                          "Periode"                                               <zeit>                                                          (gGrafana)
+
+String SwitchGraphsSpeedtest                    "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibilitySpeedtest                 "Periode"                                               <zeit>                                                          (gGrafana)
+
+String SwitchGraphsFbDatarate                   "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibilityFbDatarate                "Periode"                                               <zeit>                                                          (gGrafana)
+
+String SwitchGraphsBenzinpreise                 "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibilityBenzinpreise              "Periode"                                               <zeit>                                                          (gGrafana)
+
+String SwitchGraphsWetter                       "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibilityWetter                    "Periode"                                               <zeit>                                                          (gGrafana)
+
+String SwitchGraphsTemperatur                   "Charts"                                                <graph>                                                         (gGrafana)
+String ChartVisibilityTemperatur                "Periode"                                               <zeit>                                                          (gGrafana)
