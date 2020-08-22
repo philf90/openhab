@@ -1,7 +1,7 @@
 // Gruppen
 Group gRaeume           // Gruppe Räume
 Group gLichter          // Gruppe Lichter
-Group gFenster          // Gruppe Fenster
+Group gFensterTueren    // Gruppe Fenster
 Group gTemperatur       // Gruppe Temperatur
 Group gTV               // Gruppe TVs
 Group gAVR              // Gruppe AV Receiver
@@ -29,12 +29,11 @@ Group Raum_Wohnzimmer                           "Wohnzimmer"                    
 Group Raum_Kueche                               "Küche"                         <kueche>            (gRaeume)
 
 Group:Switch:OR(ON, OFF) Sum_Lichter            "Alle Lichter"                  <light>             (gLichter)
-Group:Switch:OR(ON, OFF) Lichter_Hue            "Hue"                           <light>             (gLichter)
-Group Hue_Scenes                                "Szenen"                        <light>             (gLichter)
+Group Lichter_Hue                               "Hue"                           <light>             (gLichter)
 
-Group:Contact:OR(OPEN, CLOSED) Sum_Fenster      "Alle Fenster"                  <window>            (gFenster)
-Group Fenster_Schlafzimmer                      "Schlafzimmer"                  <window>            (gFenster)
-Group Fenster_Buero                             "Büro"                          <window>            (gFenster)
+Group:Contact:OR(OPEN, CLOSED) Sum_FensTuer     "Alle Fenster & Türen"          <window>            (gFensterTueren)
+Group Alle_Fenster                              "Fenster"                       <window>            (gFensterTueren)
+Group Alle_Tueren                               "Türen"                         <door>              (gFensterTueren)
 
 Group Temp_Wohnung                              "Wohnung"                       <temperatur>        (gTemperatur)
 Group Whg_Heizung                               "Heizung"                       <temperatur>        (gTemperatur)
