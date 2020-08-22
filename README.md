@@ -32,3 +32,14 @@ OH Version 2.5.7
 - Systeminfo
 - Tankerkönig
 - VW We Connect
+
+# Persistence:
+- InfluxDB
+
+# Transformations:
+- Javascript
+- JSONPath
+- Map
+- RegEx
+- Scale
+- XPath
