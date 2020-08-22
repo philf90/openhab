@@ -288,7 +288,7 @@ sitemap home label="Hauptmenü"
                 }
             }
         }
-        Text label="Fenster [offen: %d]" icon="window" item=Sum_Fenster {
+        Text label="Fenster & Türen [offen: %d]" icon="window" item=Sum_FensTuer {
             Frame label="Fenster" {
                 Default item=Fenster_Buero_links_STATE
                 Default item=Fenster_Buero_rechts_STATE
