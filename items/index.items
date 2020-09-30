@@ -32,8 +32,8 @@ Group:Switch:OR(ON, OFF) Sum_Lichter            "Alle Lichter"                  
 Group Lichter_Hue                               "Hue"                           <light>             (gLichter)
 
 Group:Contact:OR(OPEN, CLOSED) Sum_FensTuer     "Alle Fenster & Türen"          <window>            (gFensterTueren)
-Group Alle_Fenster                              "Fenster"                       <window>            (gFensterTueren)
-Group Alle_Tueren                               "Türen"                         <door>              (gFensterTueren)
+Group:Contact:OR(OPEN, CLOSED) Alle_Fenster     "Fenster"                       <window>            (gFensterTueren)
+Group:Contact:OR(OPEN, CLOSED) Alle_Tueren      "Türen"                         <door>              (gFensterTueren)
 
 Group Temp_Wohnung                              "Wohnung"                       <temperatur>        (gTemperatur)
 Group Whg_Heizung                               "Heizung"                       <temperatur>        (gTemperatur)
