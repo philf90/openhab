@@ -1,12 +1,13 @@
 # openhab
 Local openHAB installation
-OH Version 2.5.7
+OH Version 2.5.9
 
 # Custom Dashboard:
 - Monit
 - Frontail
 - Homematic
 - Grafana
+- VS-Code
 - Basic UI
 - Paper UI
 - REST API
