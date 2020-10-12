@@ -59,7 +59,3 @@ Group OWM_LokalesWetterVorhersage               "Vorhersage lokales Wetter"     
 
 Group Astro_Sonne                               "Sonnendaten"                   <sonne>             (gAstro)
 Group Astro_Mond                                "Monddaten"                     <mond>              (gAstro)
-
-// Sonstiges
-String DatumUhrzeit                             "Datum & Uhrzeit [%s]"                                  <kalender_2>                                                    (gMisc)                                                         {channel="ntp:ntp:local:string", autoupdate="true"}
-Location HomeLocation                           "Zu Hause"                                              <marker>                                                        (gMisc)
