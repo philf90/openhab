@@ -19,13 +19,13 @@ Number:Dimensionless VW_Passat_FuelFuelLevel    "Tank"                          
 Number:Length VW_Passat_FuelFuelRange           "KM verbleibend"                                <auto_tacho>                                                    (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:fuel#fuelRange"}
 
 // Türen & Fenster
-Switch VW_Passat_DoorsDoorsLocked               "Türen"		                                    <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#doorsLocked"}
+Switch VW_Passat_DoorsDoorsLocked               "Türen [MAP(vwdoors.map):%s]"                   <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#doorsLocked"}
 Contact VW_Passat_DoorsRightBack                "Tür hinten rechts [MAP(de.map):%s]"            <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#rightBack"}
 Contact VW_Passat_DoorsLeftBack                 "Tür hinten links [MAP(de.map):%s]"             <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#leftBack"}
 Contact VW_Passat_DoorsRightFront               "Tür vorne rechts [MAP(de.map):%s]"             <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#rightFront"}
 Contact VW_Passat_DoorsLeftFront                "Tür vorne links [MAP(de.map):%s]"              <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#leftFront"}
 
-Switch VW_Passat_DoorsTrunkLocked               "Kofferraum"		                            <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#trunkLocked"}
+Switch VW_Passat_DoorsTrunkLocked               "Kofferraum [MAP(vwdoors.map):%s]"              <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#trunkLocked"}
 Contact VW_Passat_DoorsTrunk			        "Kofferraum [MAP(de.map):%s]"			        <auto>								                            (gAuto)							                        {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:doors#trunk"}
 
 Contact VW_Passat_WindowsRightBackWnd           "Fenster hinten rechts [MAP(de.map):%s]"        <auto>                                                          (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:windows#rightBackWnd"}
@@ -40,8 +40,8 @@ String VW_Passat_DetailsServiceInspectionStatus "Service"                       
 String VW_Passat_DetailsOilInspectionStatus     "Ölwechsel"                                     <auto_oelstand>                                                 (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:details#oilInspectionStatus"}
 
 // Scheibenheizung
-Switch VW_Passat_ElectricWindowHeatingFront     "Heizung Frontscheibe"                          <heizung_2>                                                     (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:electric#windowHeatingStateFront"}
-Switch VW_Passat_ElectricWindowHeatingRear      "Heizung Heckscheibe"                           <heizung_2>                                                     (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:electric#windowHeatingStateRear"}
+Switch VW_Passat_ElectricWindowHeatingFront     "Heizung Frontscheibe [MAP(vwheating.map):%s]"  <heizung_2>                                                     (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:electric#windowHeatingStateFront"}
+Switch VW_Passat_ElectricWindowHeatingRear      "Heizung Heckscheibe [MAP(vwheating.map):%s]"   <heizung_2>                                                     (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:electric#windowHeatingStateRear"}
 
 // Trip
 Number VW_Passat_LasttripAverageFuelConsumption "Verbrauch [JS(auto_verbrauch.js):%s]"          <zapfsaeule>                                                    (gAuto)                                                 {channel="vwweconnect:vehicle:WVWZZZ3CZLE133889:lasttrip#averageFuelConsumption"}
