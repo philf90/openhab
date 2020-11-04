@@ -33,6 +33,7 @@ OH Version 2.5.9
 - Systeminfo
 - Tankerkönig
 - VW We Connect
+- Xiaomi Mi IO
 
 # Persistence:
 - InfluxDB
