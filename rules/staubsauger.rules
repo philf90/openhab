@@ -1,0 +1,50 @@
+val String filename = "staubsauger.rules"
+val mailActions = getActions("mail","mail:smtp:ec4261cf")
+
+rule "Staubsauger Error"
+when
+    Item LingLing_StatusErrorCode changed
+then
+    val String StatusErrorCode = LingLing_StatusErrorCode.state.toString
+    val String StatusErrorId = LingLing_StatusErrorId.state.toString
+    if(StatusErrorCode != "No error") {
+        sendBroadcastNotification("Ling Ling Fehler! " + StatusErrorCode + StatusErrorId)
+        mailActions.sendMail("philipp@netzhost24.de", "Ling Ling Fehler!", StatusErrorCode + " " + StatusErrorId)
+    }
+end
+
+rule "Hauptbürste reinigen"
+when
+    Item LingLing_ConsumablesMainBrushPercent changed
+then
+    if(LingLing_ConsumablesMainBrushPercent <= 15) {
+        sendBroadcastNotification("Bitte Ling Ling Hauptbürste reinigen!")
+    }
+end
+
+rule "Seitenebürste reinigen"
+when
+    Item LingLing_ConsumablesSideBrushPercent changed
+then
+    if(LingLing_ConsumablesSideBrushPercent <= 15) {
+        sendBroadcastNotification("Bitte Ling Ling Seitenbürste reinigen!")
+    }
+end
+
+rule "Schmutzsensor reinigen"
+when
+    Item LingLing_ConsumablesSensorDirtPercent changed
+then
+    if(LingLing_ConsumablesSensorDirtPercent <= 15) {
+        sendBroadcastNotification("Bitte Ling Ling Schmutzsensor reinigen!")
+    }
+end
+
+rule "Filter reinigen"
+when
+    Item LingLing_ConsumablesFilterPercent changed
+then
+    if(LingLing_ConsumablesFilterPercent <= 15) {
+        sendBroadcastNotification("Bitte Ling Ling Filter reinigen!")
+    }
+end
