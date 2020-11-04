@@ -1,14 +1,129 @@
 sitemap annalena label="Annalena" {
-    Frame label="Licht Lowboard" icon="light" {
-        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
-        Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
-        Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
-        Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
-        Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
-        Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+    // AKTUELL
+    Frame label="Aktuell" {
+        Default item=DatumUhrzeit
+        Default item=OWM_CurrentTemperature
+        Default item=Astro_Sonne_RiseStart
+        Default item=Astro_Sonne_SetStart
     }
-    Frame label="Licht Bogenlampe" {
-        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
-        Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+    // ANWEISENHEIT
+    Frame label="Anwesenheit" {
+        Default item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == OPEN] valuecolor=[==OPEN="green"]
+        Default item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
+        Default item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"]
+        Default item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
+        Text label="Standort Philipp" icon="gps" {
+            Frame label="Standort Philipp" {
+                Mapview item=Tracker_Philipp_LastLocation height=5
+                Default item=Tracker_Philipp_GpsAccuracy
+                Default item=Tracker_Philipp_LastReport
+            }
+        }
+        Text label="Standort Annalena" icon="gps" {
+            Frame label="Standort Annalena" {
+                Mapview item=Tracker_Annalena_LastLocation height=5
+                Default item=Tracker_Annalena_GpsAccuracy
+                Default item=Tracker_Annalena_LastReport
+            }
+        }
     }
+    Frame label="Gewerke" {
+        Text label="Bad klein" icon="bad" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Bad_klein_TEMPERATURE
+                Default item=Temp_Bad_klein_HUMIDITY
+            }
+            Frame label="Heizung" {
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_klein_BOOSTMODE == OFF]
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Default item=Temp_Bad_klein_BOOSTTIME visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Setpoint item=Temp_Bad_klein_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
+                Default item=Temp_Bad_klein_FROSTPROTECTION
+                Default item=Temp_Bad_klein_ACTIVEPROFILE
+                Switch item=Temp_Bad_klein_Schaltzustand mappings=[OFF="Aus"] visibility=[Temp_Bad_klein_Schaltzustand == OFF]
+                Switch item=Temp_Bad_klein_Schaltzustand mappings=[ON="An"] visibility=[Temp_Bad_klein_Schaltzustand == ON]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_klein_Heizventil == OFF]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_klein_Heizventil == ON]
+            }
+        }
+        Text label="Licht" icon="light" {
+            Frame label="Licht Lowboard" icon="light" {
+                //Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
+                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
+                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
+                Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
+                Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
+                Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+            }
+            Frame label="Licht Bogenlampe" {
+                //Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
+                Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+            }
+        }
+        Text label="Temperatur" icon="temperatur" {
+            Frame label="Temperatur" {
+                Default item=OWM_CurrentTemperature
+                Default item=Temp_Bad_gross_TEMPERATURE
+                Default item=Temp_Bad_klein_TEMPERATURE
+                Default item=Temp_Buero_ACTUALTEMPERATURE
+                Default item=Temp_Schlaf_TEMPERATURE
+                Default item=Temp_Wohn_TEMPERATURE
+                Default item=Temp_Kueche_TEMPERATURE
+            }
+            Frame label="Statistik" {
+                Switch item=ChartVisibilityTemperatur mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/temperatur_wohnung.jpg" refresh=1000
+            }
+        }
+        Text label="Staubsauger" icon="reinigung" item=LingLing_ActionsControl {
+            Frame label="Roborock S6 MaxV" {
+                Switch item=LingLing_ActionsVacuum mappings=[ON="Start"] visibility=[LingLing_ActionsVacuum == OFF]
+                Switch item=LingLing_ActionsVacuum mappings=[OFF="Stopp"] visibility=[LingLing_ActionsVacuum == ON]
+                Default item=LingLing_ActionsControl
+                Default item=LingLing_ActionsFan
+                Default item=LingLing_StatusState
+                Default item=LingLing_StatusFanPower
+                //Default item=LingLing_ActionsSegment
+                Default item=LingLing_StatusBattery
+                Default item=LingLing_StatusCleanArea
+                Default item=LingLing_StatusCleanTime
+            }
+            Frame label="Reinigung" {
+                Default item=LingLing_CleaningLastCleanStartTime
+                Default item=LingLing_CleaningLastCleanEndTime
+                Default item=LingLing_CleaningLastCleanDuration
+                Default item=LingLing_CleaningLastCleanArea
+            }
+            Frame label="Verbrauchsmaterial & Reinigung" {
+                Default item=LingLing_ConsumablesMainBrushPercent
+                Default item=LingLing_ConsumablesMainBrushTime
+                Default item=LingLing_ConsumablesSideBrushPercent
+                Default item=LingLing_ConsumablesSideBrushTime
+                Default item=LingLing_ConsumablesFilterPercent
+                Default item=LingLing_ConsumablesFilterTime
+                Default item=LingLing_ConsumablesSensorDirtPercent
+                Default item=LingLing_ConsumablesSensorDirtTime
+                Default item=LingLing_ConsumablesConsumableReset
+            }
+            Frame label="Karte" {
+                Default item=LingLing_CleaningMap
+            }
+            Frame label="Statistik" {
+                Default item=LingLing_HistoryTotalCleanCount
+                Default item=LingLing_HistoryTotalCleanArea
+                Default item=LingLing_HistoryTotalCleanTime
+            }
+            //Frame label="Misc" {
+            //    Default item=LingLing_StatusMopForbiddenEnable
+            //    Default item=LingLing_StatusWaterBoxCarriageStatus
+            //    Default item=LingLing_StatusWaterBoxMode
+            //    Default item=LingLing_StatusWaterBoxStatus
+            //    Default item=LingLing_StatusLockStatus
+            //}
+        }
+    }         
 }

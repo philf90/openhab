@@ -15,6 +15,20 @@ sitemap home label="Hauptmenü"
         Default item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
         Default item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"]
         Default item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
+        Text label="Standort Philipp" icon="gps" {
+            Frame label="Standort Philipp" {
+                Mapview item=Tracker_Philipp_LastLocation height=5
+                Default item=Tracker_Philipp_GpsAccuracy
+                Default item=Tracker_Philipp_LastReport
+            }
+        }
+        Text label="Standort Annalena" icon="gps" {
+            Frame label="Standort Annalena" {
+                Mapview item=Tracker_Annalena_LastLocation height=5
+                Default item=Tracker_Annalena_GpsAccuracy
+                Default item=Tracker_Annalena_LastReport
+            }
+        }
     }
 
     // INTERNET & NETZWERK
@@ -49,8 +63,8 @@ sitemap home label="Hauptmenü"
                 Image url="http://openhab/static/syshost_cputhreads.jpg" refresh=1000 visibility=[SwitchGraphs==5]
             }
         }
-        Text item=fboxName label="FRITZ!box" icon="router" {
-            Frame label="Admin" visibility=[fboxUptime>0] {
+        Text item=fboxName label="FRITZ!box" icon="router_2" {
+            Frame label="Admin" visibility=[fboxUptime > 0] {
                 Switch item=fboxReboot mappings=[ON="Reboot"]
                 Switch item=fboxGuestWifi  mappings=[OFF="Aus",ON="An"]
             }
@@ -116,13 +130,15 @@ sitemap home label="Hauptmenü"
     
     // RÄUME
     Frame label="Räume" {
-        Text label="Wohnzimmer" icon="wohnzimmer" {
+        Text label="Wohnzimmer" icon="wohnzimmer_2" {
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Wohn_TEMPERATURE
                 Default item=Temp_Wohn_HUMIDITY
             }
             Frame label="Licht Lowboard" {
-                Switch item=Hue_WhzLowboard_Color label="Licht Lowboard" mappings=[ON="An", OFF="Aus"]
+                //Switch item=Hue_WhzLowboard_Color label="Licht Lowboard" mappings=[ON="An", OFF="Aus"]
+                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
+                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
@@ -130,13 +146,15 @@ sitemap home label="Hauptmenü"
                 Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
             }
             Frame label="Licht Bogenlampe" {
-                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                //Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
                 Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
             }
             Frame label="TV" {
                 Switch item=TV_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
                 Switch item=TV_Wohnzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Wohnzimmer_OnOff == ON]
-                Default item=AVR_Wohnzimmer_MZ_Vol icon="soundvolume" visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
+                Default item=AVR_Wohnzimmer_MZ_Vol visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
                 Default item=TV_Wohnzimmer_Player visibility=[TV_Wohnzimmer_OnOff == ON]
                 Default item=TV_Wohnzimmer_Application visibility=[TV_Wohnzimmer_OnOff == ON]
             }
@@ -166,7 +184,7 @@ sitemap home label="Hauptmenü"
                 Switch item=Kodi_Stop mappings=[ON="Stop"]
             }
         }
-        Text label="Büro" icon="buero" {
+        Text label="Büro" icon="buero_2" {
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Buero_ACTUALTEMPERATURE
                 Default item=Temp_Buero_HUMIDITY
@@ -175,11 +193,23 @@ sitemap home label="Hauptmenü"
                 Default item=Fenster_Buero_links_STATE
                 Default item=Fenster_Buero_rechts_STATE
             }
+            Frame label="Licht Schreibtisch" {
+                //Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An", OFF="Aus"]
+                Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
+                Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Default item=Hue_BueroSchreibtisch_Dimmer visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Default item=Hue_BueroSchreibtisch_Color icon="rgbkreis" visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Default item=Hue_BueroSchreibtisch_ColorTemperature visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Switch item=Hue_BueroSchreibtisch_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Selection item=Hue_BueroSchreibtisch_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+            }
             Frame label="Sonos One SL" {
                 Text item=Sonos_Buero_Status
                 Default item=Sonos_Buero_Player
-                Default item=Sonos_Buero_Volume
-                Switch item=Sonos_Buero_Mute mappings=[ON="Mute", OFF="Unmute"]
+                //Default item=Sonos_Buero_Volume
+                Setpoint item=Sonos_Buero_Volume minValue=0 maxValue=100 step=1
+                Switch item=Sonos_Buero_Mute mappings=[ON="Mute"] visibility=[Sonos_Buero_Mute == OFF]
+                Switch item=Sonos_Buero_Mute mappings=[OFF="Unmute"] visibility=[Sonos_Buero_Mute == ON]
                 Default item=Sonos_Buero_Titel
                 Default item=Sonos_Buero_Artist
                 Default item=Sonos_Buero_Favorit
@@ -195,7 +225,7 @@ sitemap home label="Hauptmenü"
                 Default item=Drucker_UsageTotalMonochromeCount
             }
         }
-        Text label="Bad" icon="bad" {
+        Text label="Bad groß" icon="bad_2" {
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Bad_gross_TEMPERATURE
                 Default item=Temp_Bad_gross_HUMIDITY
@@ -208,8 +238,10 @@ sitemap home label="Hauptmenü"
             Frame label="Sonos One SL" {
                 Text item=Sonos_Bad_Status
                 Default item=Sonos_Bad_Player
-                Default item=Sonos_Bad_Volume
-                Switch item=Sonos_Bad_Mute mappings=[ON="Mute", OFF="Unmute"]
+                //Default item=Sonos_Bad_Volume
+                Setpoint item=Sonos_Bad_Volume minValue=0 maxValue=100 step=1
+                Switch item=Sonos_Bad_Mute mappings=[ON="Mute"] visibility=[Sonos_Bad_Mute == OFF]
+                Switch item=Sonos_Bad_Mute mappings=[OFF="Unmute"] visibility=[Sonos_Bad_Mute == ON]
                 Default item=Sonos_Bad_Titel
                 Default item=Sonos_Bad_Artist
                 Default item=Sonos_Bad_Favorit
@@ -220,16 +252,32 @@ sitemap home label="Hauptmenü"
                 Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_gross_FROSTPROTECTION
-                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="heizung_2" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "HEATING"]
-                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="kuehlung" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "COOLING"]
                 Default item=Temp_Bad_gross_ACTIVEPROFILE
-                Switch item=Temp_Bad_gross_Schaltzustand mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
-                Switch item=Temp_Bad_gross_Schaltzustand mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
+                Switch item=Temp_Bad_gross_Schaltzustand icon="schalter_aus" mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
+                Switch item=Temp_Bad_gross_Schaltzustand icon="schalter_an" mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
                 Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_gross_Heizventil == OFF]
                 Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_gross_Heizventil == ON]
             }
         }
-        Text label="Schlafzimmer" icon="schlafzimmer" {
+        Text label="Bad klein" icon="bad_2" {
+            Frame label="Temperatur & Feuchtigkeit" {
+                Default item=Temp_Bad_klein_TEMPERATURE
+                Default item=Temp_Bad_klein_HUMIDITY
+            }
+            Frame label="Heizung" {
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_klein_BOOSTMODE == OFF]
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Default item=Temp_Bad_klein_BOOSTTIME visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Setpoint item=Temp_Bad_klein_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
+                Default item=Temp_Bad_klein_FROSTPROTECTION
+                Default item=Temp_Bad_klein_ACTIVEPROFILE
+                Switch item=Temp_Bad_klein_Schaltzustand icon="schalter_aus" mappings=[OFF="Aus"] visibility=[Temp_Bad_klein_Schaltzustand == OFF]
+                Switch item=Temp_Bad_klein_Schaltzustand icon="schalter_ein" mappings=[ON="An"] visibility=[Temp_Bad_klein_Schaltzustand == ON]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_klein_Heizventil == OFF]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_klein_Heizventil == ON]
+            }
+        }
+        Text label="Schlafzimmer" icon="schlafzimmer_2" {
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Schlaf_TEMPERATURE
                 Default item=Temp_Schlaf_HUMIDITY
@@ -253,7 +301,7 @@ sitemap home label="Hauptmenü"
                 Default item=IPTV_MR201_Duration
             }
         }
-        Text label="Küche" icon="kueche" {
+        Text label="Küche" icon="kueche_2" {
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Kueche_TEMPERATURE
                 Default item=Temp_Kueche_HUMIDITY
@@ -264,10 +312,12 @@ sitemap home label="Hauptmenü"
     // GEWERKE
     Frame label="Gewerke" {
         Text label="Lichter [an: %d]" icon="light" item=Sum_Lichter {
-            Frame label="Alle Lichter" {
+            Frame label="Alle Lichter - an: [ %d ]" item=Sum_Lichter {
                 Text label="Wohnzimmer" icon="light" {
                     Frame label="Lowboard" {
-                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
+                        //Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
+                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
+                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
@@ -275,8 +325,22 @@ sitemap home label="Hauptmenü"
                         Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
                     }
                     Frame label="Bogenlampe" {
-                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                        //Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
+                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
+                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
                         Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
+                    }
+                }
+                Text label="Büro" icon="light" {
+                    Frame label="Schreibtisch" {
+                        //Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An", OFF="Aus"]
+                        Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
+                        Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Default item=Hue_BueroSchreibtisch_Dimmer visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Default item=Hue_BueroSchreibtisch_Color icon="rgbkreis" visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Default item=Hue_BueroSchreibtisch_ColorTemperature visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Switch item=Hue_BueroSchreibtisch_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Selection item=Hue_BueroSchreibtisch_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_BueroSchreibtisch_Color > 0]
                     }
                 }
                 Text label="Badezimmer" icon="light" {
@@ -289,15 +353,19 @@ sitemap home label="Hauptmenü"
             }
         }
         Text label="Fenster & Türen [offen: %d]" icon="window" item=Sum_FensTuer {
-            Frame label="Fenster" {
+            Frame label="Fenster - offen: [ %d ]" item=Alle_Fenster {
                 Default item=Fenster_Buero_links_STATE
                 Default item=Fenster_Buero_rechts_STATE
             }
+            //Frame label="Türen - offen: [ %d ]" item=Alle_Tueren {
+            //    
+            //}
         }
         Text label="Temperatur" icon="temperatur" {
             Frame label="Temperatur" {
                 Default item=OWM_CurrentTemperature
                 Default item=Temp_Bad_gross_TEMPERATURE
+                Default item=Temp_Bad_klein_TEMPERATURE
                 Default item=Temp_Buero_ACTUALTEMPERATURE
                 Default item=Temp_Schlaf_TEMPERATURE
                 Default item=Temp_Wohn_TEMPERATURE
@@ -309,7 +377,7 @@ sitemap home label="Hauptmenü"
             }
         }
         Text label="Heizung" icon="heizung" {
-            Frame label="Bad" {
+            Frame label="Bad groß" {
                 Default item=Temp_Bad_gross_TEMPERATURE
                 Default item=Temp_Bad_gross_HUMIDITY
                 Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_gross_BOOSTMODE == OFF]
@@ -317,14 +385,83 @@ sitemap home label="Hauptmenü"
                 Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_gross_FROSTPROTECTION
-                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="heizung_2" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "HEATING"]
-                //Selection item=Temp_Bad_gross_HEATINGCOOLING icon="kuehlung" mappings=["HEATING"="Heizen", "COOLING"="Kühlen"] visibility=[Temp_Bad_gross_HEATINGCOOLING == "COOLING"]
                 Default item=Temp_Bad_gross_ACTIVEPROFILE
-                Switch item=Temp_Bad_gross_Schaltzustand mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
-                Switch item=Temp_Bad_gross_Schaltzustand mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
+                Switch item=Temp_Bad_gross_Schaltzustand icon="schalter_aus" mappings=[OFF="Aus"] visibility=[Temp_Bad_gross_Schaltzustand == OFF]
+                Switch item=Temp_Bad_gross_Schaltzustand icon="schalter_an" mappings=[ON="An"] visibility=[Temp_Bad_gross_Schaltzustand == ON]
                 Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_gross_Heizventil == OFF]
                 Switch item=Temp_Bad_gross_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_gross_Heizventil == ON]
             }
+            Frame label="Bad klein" {
+                Default item=Temp_Bad_klein_TEMPERATURE
+                Default item=Temp_Bad_klein_HUMIDITY
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_klein_BOOSTMODE == OFF]
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Default item=Temp_Bad_klein_BOOSTTIME visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Setpoint item=Temp_Bad_klein_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
+                Default item=Temp_Bad_klein_FROSTPROTECTION
+                Default item=Temp_Bad_klein_ACTIVEPROFILE
+                Switch item=Temp_Bad_klein_Schaltzustand icon="schalter_aus" mappings=[OFF="Aus"] visibility=[Temp_Bad_klein_Schaltzustand == OFF]
+                Switch item=Temp_Bad_klein_Schaltzustand icon="schalter_an" mappings=[ON="An"] visibility=[Temp_Bad_klein_Schaltzustand == ON]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Geschlossen"] visibility=[Temp_Bad_klein_Heizventil == OFF]
+                Switch item=Temp_Bad_klein_Heizventil mappings=[OFF="Offen"] visibility=[Temp_Bad_klein_Heizventil == ON]
+            }
+        }
+        Text label="Staubsauger" icon="reinigung" item=LingLing_StatusState {
+            Frame label="Fehler!" visibility=[LingLing_StatusErrorCode != "No error"] {
+                Default item=LingLing_StatusErrorCode
+                Default item=LingLing_StatusErrorId
+            }
+            Frame label="Roborock S6 MaxV" {
+                Switch item=LingLing_ActionsVacuum mappings=[ON="Start"] visibility=[LingLing_ActionsVacuum == OFF]
+                Switch item=LingLing_ActionsVacuum mappings=[OFF="Stopp"] visibility=[LingLing_ActionsVacuum == ON]
+                Default item=LingLing_ActionsControl
+                Default item=LingLing_ActionsFan
+                Default item=LingLing_StatusState
+                Default item=LingLing_StatusFanPower
+                //Default item=LingLing_ActionsSegment
+                Default item=LingLing_StatusBattery icon="battery_full" visibility=[LingLing_StatusBattery == 100] valuecolor=[==100="green"]
+                Default item=LingLing_StatusBattery visibility=[LingLing_StatusBattery < 100] valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=LingLing_StatusCleanArea
+                Default item=LingLing_StatusCleanTime
+            }
+            Frame label="Reinigung" {
+                Default item=LingLing_CleaningLastCleanStartTime
+                Default item=LingLing_CleaningLastCleanEndTime
+                Default item=LingLing_CleaningLastCleanDuration
+                Default item=LingLing_CleaningLastCleanArea
+            }
+            Frame label="Verbrauchsmaterial & Reinigung" {
+                Default item=LingLing_ConsumablesMainBrushPercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=LingLing_ConsumablesMainBrushTime
+                Default item=LingLing_ConsumablesSideBrushPercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=LingLing_ConsumablesSideBrushTime
+                Default item=LingLing_ConsumablesFilterPercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=LingLing_ConsumablesFilterTime
+                Default item=LingLing_ConsumablesSensorDirtPercent valuecolor=[<=20="red", <=50="orange", >50="green"]
+                Default item=LingLing_ConsumablesSensorDirtTime
+                Default item=LingLing_ConsumablesConsumableReset
+            }
+            Frame label="Karte" {
+                Default item=LingLing_CleaningMap
+            }
+            Frame label="Statistik" {
+                Default item=LingLing_HistoryTotalCleanCount
+                Default item=LingLing_HistoryTotalCleanArea
+                Default item=LingLing_HistoryTotalCleanTime
+            }
+            Frame label="Netzwerk" {
+                //Default item=LingLing_NetworkLife
+                Default item=LingLing_NetworkSsid
+                //Default item=LingLing_NetworkBssid
+                Default item=LingLing_NetworkRssi
+            }
+            //Frame label="Misc" {
+            //    Default item=LingLing_StatusMopForbiddenEnable
+            //    Default item=LingLing_StatusWaterBoxCarriageStatus
+            //    Default item=LingLing_StatusWaterBoxMode
+            //    Default item=LingLing_StatusWaterBoxStatus
+            //    Default item=LingLing_StatusLockStatus
+            //}
         }
     }
 
@@ -336,7 +473,7 @@ sitemap home label="Hauptmenü"
                     Frame label="Steuerung" {
                         Switch item=TV_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
                         Switch item=TV_Wohnzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Wohnzimmer_OnOff == ON]
-                        Default item=AVR_Wohnzimmer_MZ_Vol icon="soundvolume" visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
+                        Default item=AVR_Wohnzimmer_MZ_Vol visibility=[TV_Wohnzimmer_OnOff == ON, AVR_Wohnzimmer_OnOff == ON]
                         Default item=TV_Wohnzimmer_Player visibility=[TV_Wohnzimmer_OnOff == ON]
                         Default item=TV_Wohnzimmer_Application visibility=[TV_Wohnzimmer_OnOff == ON]
                     }
@@ -393,23 +530,27 @@ sitemap home label="Hauptmenü"
         }
         Text label="Sonos" icon="sonos" {
             Frame label="Sonos" {
-                Text label="Sonos One SL (Bad)" icon="sonos" {
+                Text label="Sonos One SL (Bad)" icon="sonos" item=Sonos_Bad_Status {
                     Frame label="Steuerung" {
                         Text item=Sonos_Bad_Status
                         Default item=Sonos_Bad_Player
-                        Default item=Sonos_Bad_Volume
-                        Switch item=Sonos_Bad_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        //Default item=Sonos_Bad_Volume
+                        Setpoint item=Sonos_Bad_Volume minValue=0 maxValue=100 step=1
+                        Switch item=Sonos_Bad_Mute mappings=[ON="Mute"] visibility=[Sonos_Bad_Mute == OFF]
+                        Switch item=Sonos_Bad_Mute mappings=[OFF="Unmute"] visibility=[Sonos_Bad_Mute == ON]
                         Default item=Sonos_Bad_Titel
                         Default item=Sonos_Bad_Artist
                         Default item=Sonos_Bad_Favorit
                     }
                 }
-                Text label="Sonos One SL (Büro)" icon="sonos" {
+                Text label="Sonos One SL (Büro)" icon="sonos" item=Sonos_Buero_Status {
                     Frame label="Steuerung" {
                         Text item=Sonos_Buero_Status
                         Default item=Sonos_Buero_Player
-                        Default item=Sonos_Buero_Volume
-                        Switch item=Sonos_Buero_Mute mappings=[ON="Mute", OFF="Unmute"]
+                        //Default item=Sonos_Buero_Volume
+                        Setpoint item=Sonos_Buero_Volume minValue=0 maxValue=100 step=1
+                        Switch item=Sonos_Buero_Mute mappings=[ON="Mute"] visibility=[Sonos_Buero_Mute == OFF]
+                        Switch item=Sonos_Buero_Mute mappings=[OFF="Unmute"] visibility=[Sonos_Buero_Mute == ON]
                         Default item=Sonos_Buero_Titel
                         Default item=Sonos_Buero_Artist
                         Default item=Sonos_Buero_Favorit
@@ -610,7 +751,7 @@ sitemap home label="Hauptmenü"
 
     // AUTO
     Frame label="Auto" {
-        Text label="OF LC 287" icon="volkswagen" {
+        Text label="OF-LC 287" icon="volkswagen" {
             Frame label="Allgemein" {
                 Default item=VW_Passat_DetailsName
                 Default item=VW_Passat_DetailsModel
@@ -640,24 +781,30 @@ sitemap home label="Hauptmenü"
                 Default item=VW_Passat_FuelFuelConsumption
             }
             Frame label="Fenster & Türen" {
-                Switch item=VW_Passat_DoorsDoorsLocked mappings=[ON="geschlossen"] visibility=[VW_Passat_DoorsDoorsLocked == ON]
-                Switch item=VW_Passat_DoorsDoorsLocked mappings=[OFF="offen"] visibility=[VW_Passat_DoorsDoorsLocked == OFF]
-                Switch item=VW_Passat_DoorsTrunkLocked mappings=[ON="geschlossen"] visibility=[VW_Passat_DoorsTrunkLocked == ON]
-                Switch item=VW_Passat_DoorsTrunkLocked mappings=[OFF="offen"] visibility=[VW_Passat_DoorsTrunkLocked == OFF]
-                Default item=VW_Passat_DoorsLeftFront
-                Default item=VW_Passat_WindowsLeftFrontWnd
-                Default item=VW_Passat_DoorsRightFront
-                Default item=VW_Passat_WindowsRightFrontWnd
-                Default item=VW_Passat_DoorsLeftBack
-                Default item=VW_Passat_WindowsLeftBackWnd
-                Default item=VW_Passat_DoorsRightBack
-                Default item=VW_Passat_WindowsRightBackWnd
+                Text item=VW_Passat_DoorsDoorsLocked valuecolor=[==OFF="red", ==ON="green"]
+                Text item=VW_Passat_DoorsTrunkLocked valuecolor=[==OFF="red", ==ON="green"]
+                //Switch item=VW_Passat_DoorsDoorsLocked mappings=[ON="verriegelt"] visibility=[VW_Passat_DoorsDoorsLocked == ON] valuecolor=[==ON="green"]
+                //Switch item=VW_Passat_DoorsDoorsLocked mappings=[OFF="entriegelt"] visibility=[VW_Passat_DoorsDoorsLocked == OFF] valuecolor=[==OFF="red"]
+                //Switch item=VW_Passat_DoorsTrunkLocked mappings=[ON="verriegelt"] visibility=[VW_Passat_DoorsTrunkLocked == ON] valuecolor=[==ON="green"]
+                //Switch item=VW_Passat_DoorsTrunkLocked mappings=[OFF="entriegelt"] visibility=[VW_Passat_DoorsTrunkLocked == OFF] valuecolor=[==OFF="red"]
+                Default item=VW_Passat_DoorsLeftFront valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_WindowsLeftFrontWnd valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_DoorsRightFront valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_WindowsRightFrontWnd valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_DoorsLeftBack valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_WindowsLeftBackWnd valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_DoorsRightBack valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_WindowsRightBackWnd valuecolor=[==OPEN="red", ==CLOSED="green"]
+		        Default item=VW_Passat_DoorsTrunk valuecolor=[==OPEN="red", ==CLOSED="green"]
+                Default item=VW_Passat_DoorsHood valuecolor=[==OPEN="red", ==CLOSED="green"]
             }
             Frame label="Scheibenheizung" {
-                Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingFront == ON]
-                Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingFront == OFF]
-                Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingRear == ON]
-                Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingRear == OFF]
+                Text item=VW_Passat_ElectricWindowHeatingFront
+                Text item=VW_Passat_ElectricWindowHeatingRear
+                //Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingFront == ON]
+                //Switch item=VW_Passat_ElectricWindowHeatingFront mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingFront == OFF]
+                //Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[ON="An"] visibility=[VW_Passat_ElectricWindowHeatingRear == ON]
+                //Switch item=VW_Passat_ElectricWindowHeatingRear mappings=[OFF="Aus"] visibility=[VW_Passat_ElectricWindowHeatingRear == OFF]
             }
             Frame label="Service" {
                 Default item=VW_Passat_DetailsServiceInspectionStatus
