@@ -1,7 +1,7 @@
 // Gruppen
 Group gRaeume           // Gruppe Räume
 Group gLichter          // Gruppe Lichter
-Group gFensterTueren    // Gruppe Fenster
+Group gFensterTueren    // Gruppe Fenster & Türen
 Group gTemperatur       // Gruppe Temperatur
 Group gTV               // Gruppe TVs
 Group gAVR              // Gruppe AV Receiver
@@ -20,6 +20,8 @@ Group gWetter           // Gruppe OpenWeatherMap
 Group gAstro            // Gruppe Astro
 Group gHomematic        // Gruppe Homematic
 Group gAuto             // Gruppe Auto
+Group gGPSTracker       // Gruppe GPS Tracker
+Group gSaugroboter      // Gruppe Saugroboter
 Group gMisc             // Gruppe Sonstiges
 
 Group Raum_Schlafzimmer                         "Schlafzimmer"                  <schlafzimmer>      (gRaeume)
@@ -59,3 +61,6 @@ Group OWM_LokalesWetterVorhersage               "Vorhersage lokales Wetter"     
 
 Group Astro_Sonne                               "Sonnendaten"                   <sonne>             (gAstro)
 Group Astro_Mond                                "Monddaten"                     <mond>              (gAstro)
+
+Group GPS_Philipp                               "Position Philipp"              <gps>               (gGPSTracker)
+Group GPS_Annalena                              "Position Annalena"             <gps>               (gGPSTracker)

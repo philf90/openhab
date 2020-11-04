@@ -8,7 +8,7 @@ Switch SysHostVersionRun                        "Ausführung"                   
 Switch SysHostKernelRun                         "Ausführung"                                            <info>                                                          (gSysHost)                                                      {channel="exec:command:8f5624fc:run"}
 Switch SysHostOHVersionRun                      "Ausführung"                                            <info>                                                          (gSysHost)                                                      {channel="exec:command:3c623355:run"}
 
-String SysHostIP                                "IP Adresse [%s]"                                       <netzwerkkarte>                                                 (gSysHost)                                                      {channel="systeminfo:computer:openhab:network#ip"}
+String SysHostIP                                "IP Adresse [%s]"                                       <netzwerkkarte_2>                                               (gSysHost)                                                      {channel="systeminfo:computer:openhab:network#ip"}
 String SysHostNetworkName                       "Interface [%s]"                                        <netzwerk>                                                      (gSysHost)                                                      {channel="systeminfo:computer:openhab:network#networkDisplayName"}
 
 String SysHostCPU                               "CPU [%s]"                                              <cpu_2>                                                         (gSysHost)                                                      {channel="systeminfo:computer:openhab:cpu#name"}
