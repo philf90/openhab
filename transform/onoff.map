@@ -1,2 +1,3 @@
-OPEN=online
-CLOSED=offline
+ON=online
+OFF=offline
+NULL=unbekannt
