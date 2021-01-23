@@ -1,8 +1,13 @@
+Group gSpeedtest                                "Speedtest"                                                 <info>                                  (gMisc)                     ["Equipment"]
+
 // Speedtest
-String SpeedtestSummary                         "Speedtest [%s]"                                            <speedtest_network>                                             (gSpeedtest)
-Number SpeedtestResultPing                      "Ping [%.1f ms]"                                            <speedtest_next5>                                               (gSpeedtest)
-Number SpeedtestResultDown                      "Downlink [%.2f Mbit/s]"                                    <speedtest_download>                                            (gSpeedtest)
-Number SpeedtestResultUp                        "Uplink [%.2f Mbit/s]"                                      <speedtest_upload>                                              (gSpeedtest)
-String SpeedtestRunning                         "Speedtest running ... [%s]"                                <speedtest_new>                                                 (gSpeedtest)
-Switch SpeedtestRerun                           "Start (manuell)"                                           <speedtest_reload2>                                             (gSpeedtest)
-DateTime SpeedtestResultDate                    "Letzte Ausführung [%1$td.%1$tm.%1$tY, %1$tH:%1$tM Uhr]"    <speedtest_problem4>                                            (gSpeedtest)
+String SpeedtestSummary                         "Speedtest [%s]"                                            <speedtest_network>                     (gSpeedtest)                ["Point"]
+Number SpeedtestResultPing                      "Ping [%.1f ms]"                                            <speedtest_next5>                       (gSpeedtest)                ["Point"]
+Number SpeedtestResultDown                      "Downlink [%.2f Mbit/s]"                                    <speedtest_download>                    (gSpeedtest)                ["Point"]
+Number SpeedtestResultUp                        "Uplink [%.2f Mbit/s]"                                      <speedtest_upload>                      (gSpeedtest)                ["Point"]
+String SpeedtestRunning                         "Speedtest running ... [%s]"                                <speedtest_new>                         (gSpeedtest)                ["Point"]
+Switch SpeedtestRerun                           "Start (manuell)"                                           <speedtest_reload2>                     (gSpeedtest)                ["Point"]
+DateTime SpeedtestResultDate                    "Letzte Ausführung [%1$td.%1$tm.%1$tY, %1$tH:%1$tM Uhr]"    <speedtest_problem4>                    (gSpeedtest)                ["Point"]
+
+// Game Mode
+Switch Game_Mode                                "Game Mode"                                                 <game_controller>                       (gSpeedtest)                ["Point"]

@@ -1,5 +1,5 @@
 // Kodi
-Dimmer Kodi_Volume                              "Lautstärke"                                            <soundvolume>                                                   (gKodi, Raum_Wohnzimmer)                                        {channel="kodi:kodi:b104c3c1:volume"}
+Dimmer Kodi_Volume                              "Lautstärke"                                            <sound_an>                                                      (gKodi, Raum_Wohnzimmer)                                        {channel="kodi:kodi:b104c3c1:volume"}
 Player Kodi_Control                             "Fernbedienung"                                         <fernbedienung>                                                 (gKodi, Raum_Wohnzimmer)                                        {channel="kodi:kodi:b104c3c1:control"}
 Switch Kodi_Stop                                "Stop"                                                  <stop>                                                          (gKodi, Raum_Wohnzimmer)                                        {channel="kodi:kodi:b104c3c1:stop"}
 String Kodi_Input                               "Tastendruck"                                           <fernbedienung>                                                 (gKodi, Raum_Wohnzimmer)                                        {channel="kodi:kodi:b104c3c1:input"}
