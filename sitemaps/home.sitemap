@@ -11,18 +11,28 @@ sitemap home label="Hauptmenü"
 
     // ANWEISENHEIT
     Frame label="Anwesenheit" {
-        Default item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == OPEN] valuecolor=[==OPEN="green"]
-        Default item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
-        Default item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"]
-        Default item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
-        Text label="Standort Philipp" icon="gps" {
+        Text item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == ON] valuecolor=[==ON="green"] {
             Frame label="Standort Philipp" {
                 Mapview item=Tracker_Philipp_LastLocation height=5
                 Default item=Tracker_Philipp_GpsAccuracy
                 Default item=Tracker_Philipp_LastReport
             }
         }
-        Text label="Standort Annalena" icon="gps" {
+        Text item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == OFF] valuecolor=[==OFF="red"] {
+            Frame label="Standort Philipp" {
+                Mapview item=Tracker_Philipp_LastLocation height=5
+                Default item=Tracker_Philipp_GpsAccuracy
+                Default item=Tracker_Philipp_LastReport
+            }
+        }
+        Text item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == ON] valuecolor=[==ON="green"] {
+            Frame label="Standort Annalena" {
+                Mapview item=Tracker_Annalena_LastLocation height=5
+                Default item=Tracker_Annalena_GpsAccuracy
+                Default item=Tracker_Annalena_LastReport
+            }
+        }
+        Text item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == OFF] valuecolor=[==OFF="red"] {
             Frame label="Standort Annalena" {
                 Mapview item=Tracker_Annalena_LastLocation height=5
                 Default item=Tracker_Annalena_GpsAccuracy
@@ -79,12 +89,12 @@ sitemap home label="Hauptmenü"
                 Default item=fboxWanPhysicalLinkStatus
             }
             Frame label="DSL" {
-                Default item=fboxDslEnable
-                Default item=fboxDslStatus
-                Default item=fboxDslDownstreamCurrRate
-                Default item=fboxDslUpstreamCurrRate
+                Text item=fboxDslEnable
+                Text item=fboxDslStatus
                 Default item=fboxDslDownstreamMaxRate
                 Default item=fboxDslUpstreamMaxRate
+                //Default item=fboxDslDownstreamCurrRate
+                //Default item=fboxDslUpstreamCurrRate
                 Default item=fboxDslDownstreamNoiseMargin
                 Default item=fboxDslUpstreamNoiseMargin
                 Default item=fboxDslDownstreamAttenuation
@@ -101,6 +111,9 @@ sitemap home label="Hauptmenü"
             }
         }
         Text item=SpeedtestSummary {
+            Frame label="Admin" {
+                Switch item=Game_Mode mappings=[ON="An", OFF="Aus"]
+            }
             Frame label="Ergebnisse" {
                 Text item=SpeedtestResultDown
                 Text item=SpeedtestResultUp
@@ -109,7 +122,7 @@ sitemap home label="Hauptmenü"
             Frame label="Steuerung" {
                 Text item=SpeedtestResultDate
                 Text item=SpeedtestRunning label="Speedtest [%s]" visibility=[SpeedtestRunning != "-"]
-                Switch item=SpeedtestRerun mappings=[ON="Start"]
+                Switch item=SpeedtestRerun mappings=[ON="Start"] visibility=[Game_Mode != ON]
             }
             Frame label="Statistik" {
                 Switch item=SwitchGraphsSpeedtest mappings=[0="Speed", 1="Ping"]
@@ -125,7 +138,12 @@ sitemap home label="Hauptmenü"
                 Switch item=HmIP_InstallMode mappings=[ON="Start"] visibility=[HmIP_InstallMode == OFF]
                 Default item=HmIP_InstallModeDuration
             }
+            Frame label="Statistik" {
+                Switch item=ChartVisibilityHmIPDutyCycle mappings=[24h="Tag",7d="Woche",30d="Monat",1y="Jahr"]
+                Image url="http://openhab/static/hmip_dutycycle.jpg" refresh=1000
+            }
         }
+        Switch item=Game_Mode mappings=[ON="An", OFF="Aus"]
     }
     
     // RÄUME
@@ -135,10 +153,13 @@ sitemap home label="Hauptmenü"
                 Default item=Temp_Wohn_TEMPERATURE
                 Default item=Temp_Wohn_HUMIDITY
             }
+            Frame label="Türen" {
+                Default item=Tuer_Balkon_Wohnzimmer_STATE
+            }
             Frame label="Licht Lowboard" {
                 //Switch item=Hue_WhzLowboard_Color label="Licht Lowboard" mappings=[ON="An", OFF="Aus"]
-                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
-                Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                Switch item=Hue_WhzLowboard_Color icon="licht_aus" label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
+                Switch item=Hue_WhzLowboard_Color icon="licht_an" label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
                 Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
@@ -147,10 +168,14 @@ sitemap home label="Hauptmenü"
             }
             Frame label="Licht Bogenlampe" {
                 //Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
-                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
+                Switch item=Hue_WhzBogenlampe_Brightness icon="licht_aus" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
                 Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
                 Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
             }
+            //Frame label="Weihnachtsbaum" {
+            //    Switch item=Hue_WhzSteckdose icon="licht_aus" mappings=[ON="An"] visibility=[Hue_WhzSteckdose == OFF]
+            //    Switch item=Hue_WhzSteckdose icon="licht_an" mappings=[OFF="Aus"] visibility=[Hue_WhzSteckdose != OFF]
+            //}
             Frame label="TV" {
                 Switch item=TV_Wohnzimmer_OnOff mappings=[ON="An", OFF="Aus"]
                 Switch item=TV_Wohnzimmer_Mute mappings=[ON="Mute", OFF="Unmute"] visibility=[TV_Wohnzimmer_OnOff == ON]
@@ -195,8 +220,8 @@ sitemap home label="Hauptmenü"
             }
             Frame label="Licht Schreibtisch" {
                 //Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An", OFF="Aus"]
-                Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
-                Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                Switch item=Hue_BueroSchreibtisch_Color icon="licht_aus" label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
+                Switch item=Hue_BueroSchreibtisch_Color icon="licht_an" label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
                 Default item=Hue_BueroSchreibtisch_Dimmer visibility=[Hue_BueroSchreibtisch_Color > 0]
                 Default item=Hue_BueroSchreibtisch_Color icon="rgbkreis" visibility=[Hue_BueroSchreibtisch_Color > 0]
                 Default item=Hue_BueroSchreibtisch_ColorTemperature visibility=[Hue_BueroSchreibtisch_Color > 0]
@@ -248,7 +273,7 @@ sitemap home label="Hauptmenü"
             }
             Frame label="Heizung" {
                 Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_gross_BOOSTMODE == OFF]
-                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[OFF="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_gross_FROSTPROTECTION
@@ -266,7 +291,7 @@ sitemap home label="Hauptmenü"
             }
             Frame label="Heizung" {
                 Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_klein_BOOSTMODE == OFF]
-                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[OFF="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
                 Default item=Temp_Bad_klein_BOOSTTIME visibility=[Temp_Bad_klein_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_klein_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_klein_FROSTPROTECTION
@@ -281,6 +306,11 @@ sitemap home label="Hauptmenü"
             Frame label="Temperatur & Feuchtigkeit" {
                 Default item=Temp_Schlaf_TEMPERATURE
                 Default item=Temp_Schlaf_HUMIDITY
+            }
+            Frame label="Fenster & Türen" {
+                Default item=Fenster_Schlafzimmer_links_STATE
+                Default item=Fenster_Schlafzimmer_rechts_STATE
+                Default item=Tuer_Balkon_Schlafzimmer_STATE
             }
             Frame label="TV" {
                 Switch item=TV_Schlafzimmer_OnOff mappings=[ON="An", OFF="Aus"]
@@ -313,34 +343,38 @@ sitemap home label="Hauptmenü"
     Frame label="Gewerke" {
         Text label="Lichter [an: %d]" icon="light" item=Sum_Lichter {
             Frame label="Alle Lichter - an: [ %d ]" item=Sum_Lichter {
-                Text label="Wohnzimmer" icon="light" {
+                Text label="Wohnzimmer [an: %d]" icon="light" item=Sum_Lichter_Wohnzimmer {
                     Frame label="Lowboard" {
                         //Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An", OFF="Aus"]
-                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
-                        Switch item=Hue_WhzLowboard_Color label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
+                        Switch item=Hue_WhzLowboard_Color icon="licht_aus" label="Licht Lowbard" mappings=[ON="An"] visibility=[Hue_WhzLowboard_Color == 0]
+                        Switch item=Hue_WhzLowboard_Color icon="licht_an" label="Licht Lowbard" mappings=[OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_Dimmer visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_Color icon="rgbkreis" visibility=[Hue_WhzLowboard_Color > 0]
                         Default item=Hue_WhzLowboard_ColorTemperature visibility=[Hue_WhzLowboard_Color > 0]
                         Switch item=Hue_WhzLowboard_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_WhzLowboard_Color > 0]
-                        Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
+                        Selection item=Hue_WhzLowBoard_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlichter", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_WhzLowboard_Color > 0]
                     }
                     Frame label="Bogenlampe" {
                         //Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An", OFF="Aus"]
-                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
+                        Switch item=Hue_WhzBogenlampe_Brightness icon="licht_aus" label="Licht Bogenlampe" mappings=[ON="An"] visibility=[Hue_WhzBogenlampe_Brightness == 0]
                         Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
                         Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
                     }
+                    Frame label="Weihnachtsbaum" {
+                        Switch item=Hue_WhzSteckdose icon="licht_aus" mappings=[ON="An"] visibility=[Hue_WhzSteckdose == OFF]
+                        Switch item=Hue_WhzSteckdose icon="licht_an" mappings=[OFF="Aus"] visibility=[Hue_WhzSteckdose != OFF]
+                    }
                 }
-                Text label="Büro" icon="light" {
+                Text label="Büro [an: %d]" icon="light" item=Sum_Lichter_Buero {
                     Frame label="Schreibtisch" {
                         //Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An", OFF="Aus"]
-                        Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
-                        Switch item=Hue_BueroSchreibtisch_Color label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Switch item=Hue_BueroSchreibtisch_Color icon="licht_aus" label="Licht Schreibtisch" mappings=[ON="An"] visibility=[Hue_BueroSchreibtisch_Color == 0]
+                        Switch item=Hue_BueroSchreibtisch_Color icon="licht_an" label="Licht Schreibtisch" mappings=[OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
                         Default item=Hue_BueroSchreibtisch_Dimmer visibility=[Hue_BueroSchreibtisch_Color > 0]
                         Default item=Hue_BueroSchreibtisch_Color icon="rgbkreis" visibility=[Hue_BueroSchreibtisch_Color > 0]
                         Default item=Hue_BueroSchreibtisch_ColorTemperature visibility=[Hue_BueroSchreibtisch_Color > 0]
                         Switch item=Hue_BueroSchreibtisch_Effect mappings=[ON="An", OFF="Aus"] visibility=[Hue_BueroSchreibtisch_Color > 0]
-                        Selection item=Hue_BueroSchreibtisch_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlicher", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_BueroSchreibtisch_Color > 0]
+                        Selection item=Hue_BueroSchreibtisch_Selector mappings=["SZ1"="Hell", "SZ2"="Tropendämmerung", "SZ3"="Nordlichter", "SZ4"="Frühlingsblumen", "SZ5"="Entspannen", "SZ6"="Lesen", "SZ7"="Konzentrieren", "SZ8"="Energie tanken"] visibility=[Hue_BueroSchreibtisch_Color > 0]
                     }
                 }
                 Text label="Badezimmer" icon="light" {
@@ -356,10 +390,13 @@ sitemap home label="Hauptmenü"
             Frame label="Fenster - offen: [ %d ]" item=Alle_Fenster {
                 Default item=Fenster_Buero_links_STATE
                 Default item=Fenster_Buero_rechts_STATE
+                Default item=Fenster_Schlafzimmer_links_STATE
+                Default item=Fenster_Schlafzimmer_rechts_STATE
             }
-            //Frame label="Türen - offen: [ %d ]" item=Alle_Tueren {
-            //    
-            //}
+            Frame label="Türen - offen: [ %d ]" item=Alle_Tueren {
+                Default item=Tuer_Balkon_Wohnzimmer_STATE
+                Default item=Tuer_Balkon_Schlafzimmer_STATE
+            }
         }
         Text label="Temperatur" icon="temperatur" {
             Frame label="Temperatur" {
@@ -381,7 +418,7 @@ sitemap home label="Hauptmenü"
                 Default item=Temp_Bad_gross_TEMPERATURE
                 Default item=Temp_Bad_gross_HUMIDITY
                 Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_gross_BOOSTMODE == OFF]
-                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
+                Switch item=Temp_Bad_gross_BOOSTMODE mappings=[OFF="Stop"] visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Default item=Temp_Bad_gross_BOOSTTIME visibility=[Temp_Bad_gross_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_gross_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_gross_FROSTPROTECTION
@@ -395,7 +432,7 @@ sitemap home label="Hauptmenü"
                 Default item=Temp_Bad_klein_TEMPERATURE
                 Default item=Temp_Bad_klein_HUMIDITY
                 Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Start"] visibility=[Temp_Bad_klein_BOOSTMODE == OFF]
-                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[ON="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
+                Switch item=Temp_Bad_klein_BOOSTMODE mappings=[OFF="Stop"] visibility=[Temp_Bad_klein_BOOSTMODE == ON]
                 Default item=Temp_Bad_klein_BOOSTTIME visibility=[Temp_Bad_klein_BOOSTMODE == ON]
                 Setpoint item=Temp_Bad_klein_SETPOINTTEMP minValue=5 maxValue=30 step=0.5
                 Default item=Temp_Bad_klein_FROSTPROTECTION
@@ -423,6 +460,7 @@ sitemap home label="Hauptmenü"
                 Default item=LingLing_StatusBattery visibility=[LingLing_StatusBattery < 100] valuecolor=[<=20="red", <=50="orange", >50="green"]
                 Default item=LingLing_StatusCleanArea
                 Default item=LingLing_StatusCleanTime
+                //Default item=LingLing_ActionsCommands
             }
             Frame label="Reinigung" {
                 Default item=LingLing_CleaningLastCleanStartTime
@@ -506,7 +544,7 @@ sitemap home label="Hauptmenü"
                         Default item=IPTV_MR401_Key
                         Default item=IPTV_MR401_Player
                         Switch item=IPTV_MR401_Mute mappings=[ON="Mute", OFF="Unmute"]
-                        Text item=IPTV_MR401_Channel
+                        Default item=IPTV_MR401_Channel
                         Default item=IPTV_MR401_ProgramTitle
                         Default item=IPTV_MR401_ProgramText
                         Default item=IPTV_MR401_ProgramStart
@@ -519,7 +557,7 @@ sitemap home label="Hauptmenü"
                         Default item=IPTV_MR201_Key
                         Default item=IPTV_MR201_Player
                         Switch item=IPTV_MR201_Mute mappings=[ON="Mute", OFF="Unmute"]
-                        Text item=IPTV_MR201_Channel
+                        Default item=IPTV_MR201_Channel
                         Default item=IPTV_MR201_ProgramTitle
                         Default item=IPTV_MR201_ProgramText
                         Default item=IPTV_MR201_ProgramStart
@@ -851,22 +889,24 @@ sitemap home label="Hauptmenü"
     // SONSTIGES
     Frame label="Sonstiges" {
         Text label="Pollenflugindex" icon="wind" {
-            Frame label="Pollenflugindex" {
+            Frame label="Heute" {
                 Default item=DWD_Pollen_Erle_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Erle_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Ambrosia_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Ambrosia_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Esche_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Esche_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Birke_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Birke_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Gras_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Gras_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Hasel_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Hasel_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Beifuss_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
-                Default item=DWD_Pollen_Beifuss_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Roggen_heute valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+            }
+            Frame label="Morgen" {
+                Default item=DWD_Pollen_Erle_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Ambrosia_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Esche_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Birke_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Gras_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Hasel_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
+                Default item=DWD_Pollen_Beifuss_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
                 Default item=DWD_Pollen_Roggen_morgen valuecolor=[0="green", "0-1"="green", 1="yellow","1-2"="yellow", 2="orange","2-3"="orange", 3="red"]
             }
         }

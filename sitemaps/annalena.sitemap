@@ -8,18 +8,28 @@ sitemap annalena label="Annalena" {
     }
     // ANWEISENHEIT
     Frame label="Anwesenheit" {
-        Default item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == OPEN] valuecolor=[==OPEN="green"]
-        Default item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
-        Default item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"]
-        Default item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"]
-        Text label="Standort Philipp" icon="gps" {
+        Text item=fbox_PhilippHandyOnline icon="wlan_verbunden" visibility=[fbox_PhilippHandyOnline == OPEN] valuecolor=[==OPEN="green"] {
             Frame label="Standort Philipp" {
                 Mapview item=Tracker_Philipp_LastLocation height=5
                 Default item=Tracker_Philipp_GpsAccuracy
                 Default item=Tracker_Philipp_LastReport
             }
         }
-        Text label="Standort Annalena" icon="gps" {
+        Text item=fbox_PhilippHandyOnline icon="wlan_aus" visibility=[fbox_PhilippHandyOnline == CLOSED] valuecolor=[==CLOSED="red"] {
+            Frame label="Standort Philipp" {
+                Mapview item=Tracker_Philipp_LastLocation height=5
+                Default item=Tracker_Philipp_GpsAccuracy
+                Default item=Tracker_Philipp_LastReport
+            }
+        }
+        Text item=fbox_AnnalenaHandyOnline icon="wlan_verbunden" visibility=[fbox_AnnalenaHandyOnline == OPEN] valuecolor=[==OPEN="green"] {
+            Frame label="Standort Annalena" {
+                Mapview item=Tracker_Annalena_LastLocation height=5
+                Default item=Tracker_Annalena_GpsAccuracy
+                Default item=Tracker_Annalena_LastReport
+            }
+        }
+        Text item=fbox_AnnalenaHandyOnline icon="wlan_aus" visibility=[fbox_AnnalenaHandyOnline == CLOSED] valuecolor=[==CLOSED="red"] {
             Frame label="Standort Annalena" {
                 Mapview item=Tracker_Annalena_LastLocation height=5
                 Default item=Tracker_Annalena_GpsAccuracy
@@ -27,6 +37,7 @@ sitemap annalena label="Annalena" {
             }
         }
     }
+    // GEWERKE
     Frame label="Gewerke" {
         Text label="Bad klein" icon="bad" {
             Frame label="Temperatur & Feuchtigkeit" {
@@ -63,6 +74,10 @@ sitemap annalena label="Annalena" {
                 Switch item=Hue_WhzBogenlampe_Brightness icon="licht_an" label="Licht Bogenlampe" mappings=[OFF="Aus"] visibility=[Hue_WhzBogenlampe_Brightness > 0]
                 Default item=Hue_WhzBogenlampe_Brightness visibility=[Hue_WhzBogenlampe_Brightness > 0]
             }
+            //Frame label="Weihnachtsbaum" {
+            //    Switch item=Hue_WhzSteckdose mappings=[ON="AN"] visibility=[Hue_WhzSteckdose == OFF]
+            //    Switch item=Hue_WhzSteckdose mappings=[OFF="AUS"] visibility=[Hue_WhzSteckdose != OFF]
+            //}
         }
         Text label="Temperatur" icon="temperatur" {
             Frame label="Temperatur" {
@@ -79,7 +94,7 @@ sitemap annalena label="Annalena" {
                 Image url="http://openhab/static/temperatur_wohnung.jpg" refresh=1000
             }
         }
-        Text label="Staubsauger" icon="reinigung" item=LingLing_ActionsControl {
+        Text label="Staubsauger" icon="reinigung" item=LingLing_StatusState {
             Frame label="Roborock S6 MaxV" {
                 Switch item=LingLing_ActionsVacuum mappings=[ON="Start"] visibility=[LingLing_ActionsVacuum == OFF]
                 Switch item=LingLing_ActionsVacuum mappings=[OFF="Stopp"] visibility=[LingLing_ActionsVacuum == ON]
