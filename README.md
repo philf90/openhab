@@ -1,6 +1,6 @@
 # openhab
 Local openHAB installation
-OH Version 2.5.9
+OH Version 3.0.0
 
 # Custom Dashboard:
 - Monit
