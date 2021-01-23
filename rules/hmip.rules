@@ -38,6 +38,40 @@ then
     logInfo("HmIP Fenster Büro rechts", "Batterie Büro Fenster links niedrig!")
 end
 
+rule "Batterie Schlafzimmer Fenster links"
+when
+    Item Fenster_Schlafzimmer_links_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Schlafzimmer Fenster links niedrig!")
+    logInfo("HmIP Fenster Schlafzimmer links", "Batterie Schlafzimmer Fenster links niedrig!")
+end
+
+rule "Batterie Schlafzimmer Fenster rechts"
+when
+    Item Fenster_Schlafzimmer_rechts_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Schlafzimmer Fenster rechts niedrig!")
+    logInfo("HmIP Fenster Schlafzimmer rechts", "Batterie Schlafzimmer Fenster links niedrig!")
+end
+
+// TÜREN
+
+rule "Batterie Schlafzimmer Balkontür"
+when
+    Item Tuer_Balkon_Schlafzimmer_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Schlafzimmer Balkontür niedrig!")
+    logInfo("HmIP Balkontür Schlafzimmer rechts", "Batterie Schlafzimmer Balkontür niedrig!")
+end
+
+rule "Batterie Wohnzimmer Balkontür"
+when
+    Item Tuer_Balkon_Wohnzimmer_LOWBAT changed to ON
+then
+    sendNotification("philipp@netzhost24.de", "Batterie Wohnzimmer Balkontür niedrig!")
+    logInfo("HmIP Balkontür Wohnzimmer rechts", "Batterie Wohnzimmer Balkontür niedrig!")
+end
+
 // TEMPERATUR
 
 rule "Batterie Temperatur Büro"

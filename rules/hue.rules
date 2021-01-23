@@ -29,3 +29,33 @@ then
         Hue_WhzLowboard_Color.sendCommand("39,1,100")
     }
 end
+
+rule "Schreibtisch Szenen"
+when
+    Item Hue_BueroSchreibtisch_Selector received update
+then
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ1") {
+        Hue_BueroSchreibtisch_Color.sendCommand("30,64,100")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ2") {
+        Hue_BueroSchreibtisch_Color.sendCommand("281,38,49")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ3") {
+        Hue_BueroSchreibtisch_Color.sendCommand("175,100,54")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ4") {
+        Hue_BueroSchreibtisch_Color.sendCommand("340,59,84")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ5") {
+        Hue_BueroSchreibtisch_Color.sendCommand("29,80,57")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ6") {
+        Hue_BueroSchreibtisch_Color.sendCommand("30,60,100")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ7") {
+        Hue_BueroSchreibtisch_Color.sendCommand("32,30,100")
+    }
+    if(Hue_BueroSchreibtisch_Selector.state == "SZ8") {
+        Hue_BueroSchreibtisch_Color.sendCommand("39,1,100")
+    }
+end

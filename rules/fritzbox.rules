@@ -1,0 +1,19 @@
+// API Calls
+var String logName = "Fritzbox"
+
+rule "Fritzbox API Calls"
+when
+    System started or
+    Time cron "0 0 * * * ?" // jede Stunde
+then
+    val ApiCall = sendHttpGetRequest("http://admin:18F2550.78u9h@openhab/rest/things/tr064%3Afritzbox%3Ad1b258aa71", 10000)
+    val ModelName = transform("JSONPATH", "$.properties.ModelName", ApiCall.toString)
+    val SoftwareVersion = transform("JSONPATH", "$.properties.SoftwareVersion", ApiCall.toString)
+    val SerialNumber = transform("JSONPATH", "$.properties.SerialNumber", ApiCall.toString)
+    val fblabel = transform("JSONPATH", "$.label", ApiCall.toString)
+    fboxName.postUpdate(ModelName)
+    fboxVersion.postUpdate(SoftwareVersion)
+    fboxSerial.postUpdate(SerialNumber)
+    fboxManufacturer.postUpdate(fblabel)
+    logInfo(logName, "Fritzbox Thing Properties pushed into items.")
+end

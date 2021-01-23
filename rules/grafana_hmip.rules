@@ -4,23 +4,21 @@ var Timer chartTimer = null
 var String logName = "Grafana" 
 
 // here starts rikoshak's code
-rule "Pull charts from Grafana Benzinpreise"
+rule "Pull charts from Grafana HmIP Duty Cycle"
 when
-        Item ChartVisibilityBenzinpreise changed or
+        Item ChartVisibilityHmIPDutyCycle changed or
         System started
 then
-        //val argTemplate = "/usr/bin/wget 'http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=%FROM%&to=now&panelId=%PID%&width=1000&height=500&tz=Europe%2FBerlin&timeout=10000' -O /etc/openhab/html/%OUT%"
+        //val argTemplate = "/usr/bin/wget 'http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=%FROM%&to=now&panelId=%PID%&width=1000&height=400&tz=Europe%2FBerlin&timeout=10000' -O /etc/openhab/html/%OUT%"
 
-        val Map<String, String> panels = newHashMap("28" -> "tankstelle_aral_ld",
-                                                    "30" -> "tankstelle_aral_obc",
-                                                    "32" -> "tankstelle_hornbach")
+        val Map<String, String> panels = newHashMap("42" -> "hmip_dutycycle")
 
         if(chartTimer === null) { // Addition: added a third '=' to remove a warning with the null compare 
                 chartTimer = createTimer(now, [ |
                         val startTime = now.second
-                        logInfo(logName, "Getting Benzinpreise chart images...")
+                        logInfo(logName, "Getting HmIP Duty Cycle chart images...")
 
-                        val period = ChartVisibilityBenzinpreise.state.toString
+                        val period = ChartVisibilityHmIPDutyCycle.state.toString
                         panels.keySet().forEach[ pid |
                                 //val String template = argTemplate.replace("%PID%", pid).replace("%OUT%", panels.get(pid)+".jpg")
                                 val String fr       = if( period == "NULL" || period == "UNDEF" ) "now-1h" else "now-"+ period
@@ -41,7 +39,7 @@ then
 
                         reschedTime = reschedTime - (now.second - startTime)
                         if(reschedTime.intValue < 0) reschedTime = 0
-                        logInfo(logName, "Done grabbing Syshost charts, rescheduling in " + reschedTime + " seconds.")
+                        logInfo(logName, "Done grabbing HmIP Duty Cycle charts, rescheduling in " + reschedTime + " seconds.")
                         chartTimer.reschedule(now.plusSeconds(reschedTime.intValue))
                 ])
         }

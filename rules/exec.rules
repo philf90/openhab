@@ -27,5 +27,5 @@ when
 then
     val String ohversion = SysHostOHVersion.state.toString.split(" ").get(5)
     SysHostOHVersion.postUpdate(ohversion)
-    logInfo(filename, "SysHostVersion korrigiert auf {}", ohversion)
+    logInfo(filename, "openHAB Version korrigiert auf {}", ohversion)
 end

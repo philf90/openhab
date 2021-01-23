@@ -17,7 +17,7 @@ rule "Hauptbürste reinigen"
 when
     Item LingLing_ConsumablesMainBrushPercent changed
 then
-    if(LingLing_ConsumablesMainBrushPercent <= 15) {
+    if(LingLing_ConsumablesMainBrushPercent.state <= 15) {
         sendBroadcastNotification("Bitte Ling Ling Hauptbürste reinigen!")
     }
 end
@@ -26,7 +26,7 @@ rule "Seitenebürste reinigen"
 when
     Item LingLing_ConsumablesSideBrushPercent changed
 then
-    if(LingLing_ConsumablesSideBrushPercent <= 15) {
+    if(LingLing_ConsumablesSideBrushPercent.state <= 15) {
         sendBroadcastNotification("Bitte Ling Ling Seitenbürste reinigen!")
     }
 end
@@ -35,7 +35,7 @@ rule "Schmutzsensor reinigen"
 when
     Item LingLing_ConsumablesSensorDirtPercent changed
 then
-    if(LingLing_ConsumablesSensorDirtPercent <= 15) {
+    if(LingLing_ConsumablesSensorDirtPercent.state <= 15) {
         sendBroadcastNotification("Bitte Ling Ling Schmutzsensor reinigen!")
     }
 end
@@ -44,7 +44,7 @@ rule "Filter reinigen"
 when
     Item LingLing_ConsumablesFilterPercent changed
 then
-    if(LingLing_ConsumablesFilterPercent <= 15) {
+    if(LingLing_ConsumablesFilterPercent.state <= 15) {
         sendBroadcastNotification("Bitte Ling Ling Filter reinigen!")
     }
 end

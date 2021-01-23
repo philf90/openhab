@@ -9,38 +9,42 @@ when
         Item ChartVisibilityTemperatur changed or
         System started
 then
-        val argTemplate = "/usr/bin/wget 'http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=%FROM%&to=now&panelId=%PID%&width=1000&height=600&tz=Europe%2FBerlin&timeout=10000' -O /etc/openhab2/html/%OUT%"
+        //val argTemplate = "/usr/bin/wget 'http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=%FROM%&to=now&panelId=%PID%&width=1000&height=600&tz=Europe%2FBerlin&timeout=10000' -O /etc/openhab/html/%OUT%"
 
         val Map<String, String> panels = newHashMap("40" -> "temperatur_wohnung")
 
         if(chartTimer === null) { // Addition: added a third '=' to remove a warning with the null compare 
                 chartTimer = createTimer(now, [ |
-                        val startTime = now.millis
+                        val startTime = now.second
                         logInfo(logName, "Getting Temperatur Wohnung chart images...")
 
                         val period = ChartVisibilityTemperatur.state.toString
                         panels.keySet().forEach[ pid |
-                                val String template = argTemplate.replace("%PID%", pid).replace("%OUT%", panels.get(pid)+".jpg")
-                                val String fr       = if( period == "NULL" || period == "UNDEF" ) "now-1h" else "now-"+period
-                                val String results  = executeCommandLine(template.replace("%FROM%", fr), 5000)
+                                //val String template = argTemplate.replace("%PID%", pid).replace("%OUT%", panels.get(pid)+".jpg")
+                                val String fr       = if( period == "NULL" || period == "UNDEF" ) "now-1h" else "now-"+ period
+                                //val String results  = executeCommandLine(template.replace("%FROM%", fr), 5000)
+                                //val String results  = executeCommandLine(Duration.ofSeconds(5), template.replace("%FROM%", fr))
+                                val String results  = executeCommandLine(Duration.ofSeconds(5), "/usr/bin/wget", "http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from="+ fr +"&to=now&panelId="+ pid +"&width=1000&height=600&tz=Europe%2FBerlin&timeout=10000", "-O", "/etc/openhab/html/"+ panels.get(pid) +".jpg")
                                 logInfo(logName, "Results from wget for " + pid + " and period " + period) // + "\n" + results)
                         ]
+                        //val String results_ram  = executeCommandLine(Duration.ofSeconds(5), "/usr/bin/wget", "http://openhab:3000/render/d-solo/axbSoIiMz/openhab?orgId=1&from=now-d&to=now&panelId=4&width=1000&height=500&tz=Europe%2FBerlin&timeout=10000", "-O", "/etc/openhab/html/syshost_ram.jpg")
 
-                        var Number reschedTime = 30*60*1000
+                        var Number reschedTime = 5*60
                         switch(period) {
-                                case "24h": reschedTime = 5*60*1000     // 5 minutes
-                                case "7d": reschedTime = 15*60*1000    // 15 minutes
-                                case "30d": reschedTime = 60*60*1000    // 1 hour
-                                case "1y": reschedTime = 12*60*60*1000 // 1 day
+                                case "24h": reschedTime = 5*60     // 5 minutes
+                                case "7d": reschedTime = 15*60    // 15 minutes
+                                case "30d": reschedTime = 60*60    // 1 hour
+                                case "1y": reschedTime = 12*60*60 // 1 day
                         }
 
-                        reschedTime = reschedTime - (now.millis - startTime)
+                        reschedTime = reschedTime - (now.second - startTime)
                         if(reschedTime.intValue < 0) reschedTime = 0
-                        logInfo(logName, "Done grabbing Temperatur Wohnung charts, rescheduling in " + reschedTime + " milliseconds.")
-                        chartTimer.reschedule(now.plusMillis(reschedTime.intValue))
+                        logInfo(logName, "Done grabbing Temperatur Wohnung charts, rescheduling in " + reschedTime + " seconds.")
+                        chartTimer.reschedule(now.plusSeconds(reschedTime.intValue))
                 ])
         }
         else {
                 chartTimer.reschedule(now)
         }
+
 end

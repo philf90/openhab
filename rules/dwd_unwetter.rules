@@ -5,14 +5,15 @@ rule "Unwetter Notification #1"
 when
     Item DWD_Obc_Description changed
 then
-    val String start = DWD_Obc_Onset.state.toString
+    val String start = DWD_Obc_Onset.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
+    val String ende = DWD_Obc_Expires.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
     val String description = DWD_Obc_Description.state.toString
     val String headline = DWD_Obc_Headline.state.toString
     val String anweisungen = DWD_Obc_Instruction.state.toString
     if(description != "NULL") {
         sendNotification("philipp@netzhost24.de", "Achtung! " + headline)
-        mailActions.sendMail("philipp@netzhost24.de", headline + " ab " + start, description + " " + anweisungen)
-        mailActions.sendHtmlMail("philipp@netzhost24.de", headline, "G&uuml;ltig ab: " + start + "<br><br>" + description + "<br><br>" + anweisungen)
+        //mailActions.sendMail("philipp@netzhost24.de", headline, description + " " + anweisungen)
+        mailActions.sendHtmlMail("philipp@netzhost24.de", headline, "G&uuml;ltig ab: " + start + "<br>" + "G&uuml;ltig bis: " + ende + "<br><br>" + description + "<br><br>" + anweisungen)
         logInfo(filename, headline + " " + description)
     } else {
         sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
@@ -24,14 +25,15 @@ rule "Unwetter Notification #2"
 when
     Item DWD_Obc_Description2 changed
 then
-    val String start2 = DWD_Obc_Onset2.state.toString
+    val String start2 = DWD_Obc_Onset2.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
+    val String ende2 = DWD_Obc_Expires2.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
     val String description2 = DWD_Obc_Description2.state.toString
     val String headline2 = DWD_Obc_Headline2.state.toString
     val String anweisungen2 = DWD_Obc_Instruction2.state.toString
     if(description2 != "NULL") {
         sendNotification("philipp@netzhost24.de", "Achtung! " + headline2)
-        mailActions.sendMail("philipp@netzhost24.de", headline2 + " ab " + start2, description2 + " " + anweisungen2)
-        mailActions.sendHtmlMail("philipp@netzhost24.de", headline2, "G&uuml;ltig ab: " + start2 + "<br><br>" + description2 + "<br><br>" + anweisungen2)
+        //mailActions.sendMail("philipp@netzhost24.de", headline2, description2 + " " + anweisungen2)
+        mailActions.sendHtmlMail("philipp@netzhost24.de", headline2, "G&uuml;ltig ab: " + start2 + "<br>" + "G&uuml;ltig bis: " + ende2 + "<br><br>" + description2 + "<br><br>" + anweisungen2)
         logInfo(filename, headline2 + " " + description2)
     } else {
         sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
@@ -43,14 +45,15 @@ rule "Unwetter Notification #3"
 when
     Item DWD_Obc_Description3 changed
 then
-    val String start3 = DWD_Obc_Onset3.state.toString
+    val String start3 = DWD_Obc_Onset3.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
+    val String ende3 = DWD_Obc_Expires3.state.format("%1$td.%1$tm.%1$ty - %1$tH:%1$tM Uhr")
     val String description3 = DWD_Obc_Description3.state.toString
     val String headline3 = DWD_Obc_Headline3.state.toString
     val String anweisungen3 = DWD_Obc_Instruction3.state.toString
     if(description3 != "NULL") {
         sendNotification("philipp@netzhost24.de", "Achtung! " + headline3)
-        mailActions.sendMail("philipp@netzhost24.de", headline3 + " ab " + start3, description3 + " " + anweisungen3)
-        mailActions.sendHtmlMail("philipp@netzhost24.de", headline3, "G&uuml;ltig ab: " + start3 + "<br><br>" + description3 + "<br><br>" + anweisungen3)
+        //mailActions.sendMail("philipp@netzhost24.de", headline3, description3 + " " + anweisungen3)
+        mailActions.sendHtmlMail("philipp@netzhost24.de", headline3, "G&uuml;ltig ab: " + start3 + "<br>" + "G&uuml;ltig bis: " + ende3 + "<br><br>" + description3 + "<br><br>" + anweisungen3)
         logInfo(filename, headline3 + " " + description3)
     } else {
         sendNotification("philipp@netzhost24.de", "Warnung aufgehoben!")
