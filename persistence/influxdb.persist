@@ -27,8 +27,8 @@ Items {
     SpeedtestResultDown             : strategy = everyChange
     SpeedtestResultUp               : strategy = everyChange
     //FRITZBOX
-    fboxDslDownstreamCurrRate       : strategy = every5Minutes
-    fboxDslUpstreamCurrRate         : strategy = every5Minutes
+    //fboxDslDownstreamCurrRate       : strategy = every5Minutes
+    //fboxDslUpstreamCurrRate         : strategy = every5Minutes
     fboxDslDownstreamMaxRate        : strategy = every5Minutes
     fboxDslUpstreamMaxRate          : strategy = every5Minutes
     //TANKSTELLE
@@ -54,4 +54,24 @@ Items {
     Temp_Wohn_TEMPERATURE           : strategy = everyChange
     Temp_Kueche_TEMPERATURE         : strategy = everyChange
     Temp_Bad_gross_TEMPERATURE      : strategy = everyChange
+    Temp_Bad_klein_TEMPERATURE      : strategy = everyChange
+    //HMIP
+    HmIP_StatusDutyCycle            : strategy = everyChange
+    //CHARTS
+    SwitchGraphs                    : strategy = everyChange, restoreOnStartup
+    ChartVisibility                 : strategy = everyChange, restoreOnStartup
+    SwitchGraphsBenzinpreise        : strategy = everyChange, restoreOnStartup
+    ChartVisibilityBenzinpreise     : strategy = everyChange, restoreOnStartup
+    SwitchGraphsFbDatarate          : strategy = everyChange, restoreOnStartup
+    ChartVisibilityFbDatarate       : strategy = everyChange, restoreOnStartup
+    SwitchGraphsHmIPDutyCycle       : strategy = everyChange, restoreOnStartup
+    ChartVisibilityHmIPDutyCycle    : strategy = everyChange, restoreOnStartup
+    SwitchGraphsSpeedtest           : strategy = everyChange, restoreOnStartup
+    ChartVisibilitySpeedtest        : strategy = everyChange, restoreOnStartup
+    SwitchGraphsTemperatur          : strategy = everyChange, restoreOnStartup
+    ChartVisibilityTemperatur       : strategy = everyChange, restoreOnStartup
+    SwitchGraphsWetter              : strategy = everyChange, restoreOnStartup
+    ChartVisibilityWetter           : strategy = everyChange, restoreOnStartup
+    //MISC
+    Game_Mode                       : strategy = everyChange, restoreOnStartup
 }
